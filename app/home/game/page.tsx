@@ -1,10 +1,11 @@
-export default function Page({ id }: { id: string }) {
+import { GameGrid } from "@/app/ui/components/Grid";
 
+export default function Page({ id }: { id: string }) {
     // const cards = getCards(id);
 
     return (
         <main>
-            <h1>Memo Game {id}</h1>
+            <GameGrid />
         </main>
     );
 }
