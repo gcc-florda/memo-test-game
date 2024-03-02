@@ -2,16 +2,17 @@ import Link from "next/link";
 import GameForm from "@/app/ui/components/GameForm"
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import Typography from '@mui/material/Typography';
-import { roboto } from "@/app/ui/fonts";
 
 export default function Page() {
   return (
     <main>
       <div>
         <div className="flex justify-center mt-6">
-          <Typography className="font-normal text-white" variant="h1" gutterBottom>
-            Memo Test Game
-          </Typography>
+          <Link href={"/"}>
+            <Typography className="font-normal text-white" variant="h1" gutterBottom>
+              MemoTest Game
+            </Typography>
+          </Link>
         </div>
       </div>
       <div className="flex items-center justify-center md:h-screen">
