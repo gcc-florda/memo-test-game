@@ -47,7 +47,7 @@ const Card = styled('div')({
     },
 });
 
-export function MemoCard() {
+export function MemoCard({ id }: { id: number }) {
     const [isFlipped, setIsFlipped] = useState(true);
 
     const handleClick = () => {
@@ -57,7 +57,7 @@ export function MemoCard() {
     return (
         <Card style={{ transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}>
             <FrontCard onClick={handleClick}>
-                Front
+                Front {id}
             </FrontCard>
             <BackCard onClick={handleClick}>
                 Back

@@ -24,7 +24,7 @@ export default function GameCard({ id, title, detail, img }: { id: string, title
                 </Typography>
             </CardContent>
             <CardActions>
-                <Link href={`/home/game`}>
+                <Link href={`/home/game/${id}`}>
                     <IconButton aria-label="play" >
                         <PlayArrowRoundedIcon sx={{ fontSize: '2.5rem' }} />
                     </IconButton>
