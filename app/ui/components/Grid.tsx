@@ -13,7 +13,6 @@ interface MemoCardData {
 export function GameGrid({ id }: { id: string }) {
 
     const [cards, setCards] = useState<MemoCardData[]>(() => {
-        // Generate an array of card objects with unique IDs and values
         const initialCards: MemoCardData[] = [];
         for (let i = 0; i < 6; i++) {
             initialCards.push({ id: i, value: i + 1 });
@@ -32,13 +31,19 @@ export function GameGrid({ id }: { id: string }) {
 
         setFlippedCards([...flippedCards, id]);
 
+        console.log(flippedCards)
+
         if (flippedCards.length === 1) {
+            console.log("ENTRA")
             const firstCard = cards.find((card) => card.id === flippedCards[0]);
             const secondCard = cards.find((card) => card.id === id);
 
-            if (firstCard && secondCard && firstCard.value === secondCard.value) {
+            console.log(firstCard, secondCard)
+
+            if (firstCard && secondCard && firstCard.value === secondCard.id) {
                 // Match found
-                setFlippedCards([]);
+                console.log("MATCHED");
+                // setFlippedCards([]);
             } else {
                 // No match, flip cards back after a short delay
                 setTimeout(() => {
@@ -55,7 +60,7 @@ export function GameGrid({ id }: { id: string }) {
                     {cards.map((card, i) => {
                         return (
                             <Grid item xs={2} sm={4} key={i}>
-                                <div onClick={() => handleCardClick(card.id)} style={{}} >
+                                <div onClick={() => handleCardClick(card.id)}>
                                     <MemoCard id={card.id} />
                                 </div>
                             </Grid>
