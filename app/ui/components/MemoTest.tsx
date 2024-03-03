@@ -13,14 +13,19 @@ interface MemoCardData {
     isMatched: boolean;
 }
 
+const saveGameScore = (gameId: string, score: number) => {
+    const user = localStorage.getItem("user");
+    localStorage.setItem(`${user}${gameId}`, JSON.stringify(score));
+}
+
 export function MemoTest({ id }: { id: string }) {
 
     const [retries, setRetries] = useState(0);
     const [matchedCards, setMatchedCards] = useState(0);
     const [openAlert, setOpenAlert] = useState(false);
 
-    const [cards, setCards] = useState<MemoCardData[]>(() => {
-        const initialCards: MemoCardData[] = [];
+    const [cards, setCards] = useState(() => {
+        const initialCards = [];
         for (let i = 0; i < 6; i++) {
             i % 2 == 0 ? initialCards.push(
                 { id: i, value: i + 1, isFlipped: true, isMatched: false }
@@ -36,6 +41,8 @@ export function MemoTest({ id }: { id: string }) {
     useEffect(() => {
         if (matchedCards === 6) {
             console.log("FINISHED GAME")
+            const score = ((matchedCards / 2) / (retries ? retries : 1)) * 100;
+            saveGameScore(id, score);
             setOpenAlert(true);
         }
     }, [matchedCards]);

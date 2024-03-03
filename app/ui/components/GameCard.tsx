@@ -5,8 +5,6 @@ import Card from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Collapse from '@mui/material/Collapse';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
@@ -18,6 +16,11 @@ import Link from 'next/link';
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
+}
+
+const getUserScore = (gameId: string) => {
+    const user = localStorage.getItem("user");
+    return localStorage.getItem(`${user}${gameId}`);
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
@@ -32,6 +35,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 export default function GameCard({ id, title, detail, img }: { id: string, title: string, detail: string, img: string }) {
+
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
@@ -69,8 +73,8 @@ export default function GameCard({ id, title, detail, img }: { id: string, title
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    <Typography paragraph>Your Score: 0</Typography>
-                    <Typography paragraph>Highest Score: 0</Typography>
+                    <Typography paragraph>Your Score: {getUserScore(id) ? getUserScore(id) : 0}</Typography>
+                    <Typography paragraph>Highest Score: {getUserScore(id) ? getUserScore(id) : 0}</Typography>
                 </CardContent>
             </Collapse>
         </Card >

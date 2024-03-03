@@ -29,28 +29,17 @@ export async function authenticate(
 export async function registerUser(
     prevState: string | undefined,
     formData: FormData) {
-    console.log("HOLA")
-    try {
+    const newUserName = formData.get('name')?.toString();
+    const newUserPassword = formData.get('password')?.toString();
 
+    localStorage.setItem('user', JSON.stringify(newUserName));
+    localStorage.setItem('password', JSON.stringify(newUserPassword));
 
-        const newUserName = formData.get('name')?.toString();
-        const newUserPassword = formData.get('password')?.toString();
+    // Register User
+    console.log(newUserName, newUserPassword);
 
-        // Register User
-        console.log(newUserName, newUserPassword);
+    revalidatePath('/') // Update cached posts
+    redirect("/home") // Navigate to the new post page
 
-        localStorage.setItem('user', JSON.stringify(newUserName));
-        localStorage.setItem('password', JSON.stringify(newUserPassword));
-
-        // await signIn('credentials', formData);
-
-        revalidatePath('/') // Update cached posts
-        redirect("/home") // Navigate to the new post page
-
-        return newUserName
-
-    }
-    catch (e) {
-        throw e;
-    }
+    return newUserName
 }

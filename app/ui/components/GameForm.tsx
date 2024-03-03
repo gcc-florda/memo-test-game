@@ -1,8 +1,10 @@
 'use client';
+import { useState } from 'react';
 import Link from 'next/link';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useFormState, useFormStatus } from 'react-dom';
+import { revalidatePath } from 'next/cache'
 import {
     AtSymbolIcon,
     UserCircleIcon,
@@ -11,10 +13,20 @@ import {
 } from '@heroicons/react/24/outline';
 import { registerUser } from '@/app/lib/actions';
 
-
-
 export default function GameForm() {
     // const [errorMessage, dispatch] = useFormState(registerUser, undefined);
+    const [name, setName] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleClick = () => {
+        let users = localStorage.getItem('users');
+        let usersArray;
+        (!users) ? usersArray = [] : usersArray = JSON.parse(users);
+        localStorage.setItem('user', name);
+        localStorage.setItem('password', password);
+        usersArray.push(name);
+        localStorage.setItem('users', JSON.stringify(usersArray));
+    };
 
     return (
         <form className="space-y-3">
@@ -37,6 +49,7 @@ export default function GameForm() {
                                 type="text"
                                 name="name"
                                 placeholder="Your name here"
+                                onChange={(e) => setName(e.target.value)}
                                 required
                             />
                             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
@@ -56,6 +69,7 @@ export default function GameForm() {
                                 type="password"
                                 name="password"
                                 placeholder="Enter password"
+                                onChange={(e) => setPassword(e.target.value)}
                                 required
                                 minLength={6}
                             />
@@ -64,32 +78,16 @@ export default function GameForm() {
                     </div>
                 </div>
                 <Stack direction="row" spacing={2}>
-                    <NewGameButton />
+                    <Link href={"/home"}>
+                        <Button variant="outlined" onClick={handleClick}>
+                            New Game
+                        </Button>
+                    </Link>
                     <Button variant="outlined" color="success" disabled>
                         Continue
                     </Button>
                 </Stack>
-                <div className="flex h-8 items-end space-x-1">
-                    {/* {errorMessage && (
-                        <>
-                            <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-                            <p className="text-sm text-red-500">{errorMessage}</p>
-                        </>
-                    )} */}
-                </div>
             </div>
         </form>
-    );
-}
-
-function NewGameButton() {
-    const { pending } = useFormStatus();
-
-    return (
-        <Link href={"/home"}>
-            <Button variant="outlined" aria-disabled={pending}>
-                New Game
-            </Button>
-        </Link>
     );
 }
