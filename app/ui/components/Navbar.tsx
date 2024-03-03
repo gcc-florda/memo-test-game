@@ -11,7 +11,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import Link from 'next/link';
 import ExtensionRoundedIcon from '@mui/icons-material/ExtensionRounded';
 
@@ -128,7 +127,7 @@ function Navbar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Link href={`/${page}`} style={{ textDecoration: 'none' }}>
+              <Link href={`/${page}`} style={{ textDecoration: 'none' }} key={page}>
                 <Button
                   key={page}
                   sx={{ my: 2, color: 'white', display: 'block' }}
