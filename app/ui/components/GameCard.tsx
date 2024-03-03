@@ -22,26 +22,22 @@ const getUserScore = (gameId: string, userName: string = "") => {
     let score = 0;
     if (userName == "") {
         const user = localStorage.getItem("user");
-        let userScore = localStorage.getItem(`${user}${gameId}`);
+        let userScore = localStorage.getItem(`${user}${gameId}score`);
         !userScore ? score = 0 : score = JSON.parse(userScore);
     }
     else {
-        let userScore = localStorage.getItem(`${userName}${gameId}`);
+        let userScore = localStorage.getItem(`${userName}${gameId}score`);
         !userScore ? score = 0 : score = JSON.parse(userScore);
     }
     return score
 }
 
 const getHighestScore = (gameId: string) => {
-    let highestScore = 0;
-    let users = localStorage.getItem('users');
-    let usersArray;
-    (!users) ? usersArray = [] : usersArray = JSON.parse(users);
-    usersArray.map((user: string) => {
-        let userScore = getUserScore(gameId, user);
-        userScore > highestScore ? highestScore = userScore : highestScore;
-    });
-    return highestScore
+    let score = 0;
+    const user = localStorage.getItem("user");
+    let userScore = localStorage.getItem(`${user}${gameId}highest`);
+    !userScore ? score = 0 : score = JSON.parse(userScore);
+    return score
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {

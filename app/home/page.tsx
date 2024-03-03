@@ -1,6 +1,5 @@
 // const memoGames = require('../lib/static-data.js');
 import { memoGames } from "../lib/static-data";
-import Typography from '@mui/material/Typography';
 import GameCard from "../ui/components/GameCard";
 
 export default function Page() {

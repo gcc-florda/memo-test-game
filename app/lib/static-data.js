@@ -26,3 +26,5 @@ export const memoGames = [
     image_url: '/games/sport-game.png',
   }
 ];
+
+export const numberOfGames = memoGames.length;

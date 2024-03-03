@@ -15,7 +15,15 @@ interface MemoCardData {
 
 const saveGameScore = (gameId: string, score: number) => {
     const user = localStorage.getItem("user");
-    localStorage.setItem(`${user}${gameId}`, JSON.stringify(score));
+    localStorage.setItem(`${user}${gameId}score`, JSON.stringify(score));
+
+    // Update Highest Score
+    const highestScore = localStorage.getItem(`${user}${gameId}highest`);
+
+    if (!highestScore || score > JSON.parse(highestScore)) {
+        localStorage.setItem(`${user}${gameId}highest`, JSON.stringify(score));
+    }
+
 }
 
 export function MemoTest({ id }: { id: string }) {
