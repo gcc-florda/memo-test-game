@@ -1,8 +1,9 @@
 "use client"
 
 import * as React from 'react';
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Button, Snackbar } from '@mui/material';
 import { MemoCard } from './MemoCard';
 
 interface MemoCardData {
@@ -16,6 +17,7 @@ export function MemoTest({ id }: { id: string }) {
 
     const [score, setScore] = useState(100);
     const [matchedCards, setMatchedCards] = useState(0);
+    const [openAlert, setOpenAlert] = useState(false);
 
     const [cards, setCards] = useState<MemoCardData[]>(() => {
         const initialCards: MemoCardData[] = [];
@@ -34,6 +36,7 @@ export function MemoTest({ id }: { id: string }) {
     useEffect(() => {
         if (matchedCards === 6) {
             console.log("FINISHED GAME")
+            setOpenAlert(true);
         }
     }, [matchedCards]);
 
@@ -69,8 +72,8 @@ export function MemoTest({ id }: { id: string }) {
                         !card.isFlipped ? { ...card, isMatched: true } : card
                     );
                     setCards(unflippedCards);
-                    setScore(score + 10);
-                    setMatchedCards(prevCount => prevCount + 2);
+                    setScore(score => score + 10);
+                    setMatchedCards(matchedCards => matchedCards + 2);
                 }, 1000);
 
             } else {
@@ -98,6 +101,26 @@ export function MemoTest({ id }: { id: string }) {
                     ))}
                 </Grid>
             </div>
+            <div className="border border-white rounded-md p-2 mb-4">
+                <div className="text-white text-2xl">Score: {score}</div>
+            </div>
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                open={openAlert}
+                color='white'
+                autoHideDuration={6000}
+                message="Congratulations! You've matched all cards!"
+                action={
+                    <Link href={"/home"}>
+                        <Button color="primary" size="small">
+                            Home
+                        </Button>
+                    </Link>
+                }
+            />
         </div>
     );
 }
