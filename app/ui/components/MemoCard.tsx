@@ -47,20 +47,14 @@ const Card = styled('div')({
     },
 });
 
-export function MemoCard({ id }: { id: number }) {
-    const [isFlipped, setIsFlipped] = useState(true);
-
-    const handleClick = () => {
-        setIsFlipped(!isFlipped);
-    };
-
+export function MemoCard({ id, isFlipped }: { id: number, isFlipped: boolean }) {
     return (
         <Card style={{ transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}>
-            <FrontCard onClick={handleClick}>
+            <FrontCard>
                 Front {id}
             </FrontCard>
-            <BackCard onClick={handleClick}>
-                Back
+            <BackCard>
+                Back {id}
             </BackCard>
         </Card>
     );

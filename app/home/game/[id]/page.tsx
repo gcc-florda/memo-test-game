@@ -1,11 +1,11 @@
-import { GameGrid } from "@/app/ui/components/Grid";
+import { MemoTest } from "@/app/ui/components/MemoTest";
 
 export default function Page({ params }: { params: { id: string } }) {
     // const cards = getCards(id);
 
     return (
         <main>
-            <GameGrid id={params.id} />
+            <MemoTest id={params.id} />
         </main>
     );
 }
