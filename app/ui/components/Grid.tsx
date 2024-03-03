@@ -5,9 +5,56 @@ import { useState } from 'react';
 import { Grid } from '@mui/material';
 import { MemoCard } from './MemoCard';
 
+import styled from '@mui/system/styled';
+
+const FrontCard = styled('div')({
+    position: 'absolute',
+    backgroundColor: '#ff8a80',
+    height: 300,
+    width: 250,
+    display: 'flex',
+    borderRadius: 8,
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    backfaceVisibility: 'hidden',
+    '&:hover': {
+        backgroundColor: '#e57373',
+    },
+});
+
+const BackCard = styled('div')({
+    position: 'absolute',
+    backgroundColor: '#ea80fc',
+    height: 300,
+    width: 250,
+    display: 'flex',
+    borderRadius: 8,
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    backfaceVisibility: 'hidden',
+    transform: 'rotateY(180deg)',
+    '&:hover': {
+        backgroundColor: '#ba68c8',
+    },
+});
+
+const Card = styled('div')({
+    height: 300,
+    width: 250,
+    display: 'flex',
+    borderRadius: 8,
+    cursor: 'pointer',
+    transition: 'transform 0.6s',
+    transformStyle: 'preserve-3d',
+    '&:hover': {
+        backgroundColor: '#0d47a1',
+    },
+});
+
 interface MemoCardData {
     id: number;
     value: number;
+    isFlipped: boolean;
 }
 
 export function GameGrid({ id }: { id: string }) {
@@ -15,57 +62,66 @@ export function GameGrid({ id }: { id: string }) {
     const [cards, setCards] = useState<MemoCardData[]>(() => {
         const initialCards: MemoCardData[] = [];
         for (let i = 0; i < 6; i++) {
-            initialCards.push({ id: i, value: i + 1 });
+            initialCards.push({ id: i, value: i + 1, isFlipped: false });
         }
         return initialCards;
     });
 
-    const [flippedCards, setFlippedCards] = useState<number[]>([]);
+    const handleCardClick = (clickedId: number) => {
+        const updatedCards = cards.map(card => {
+            if (card.id === clickedId && !card.isFlipped) {
+                return { ...card, isFlipped: true };
+            }
+            return card;
+        });
 
-    const handleCardClick = (id: number) => {
-        // Prevent flipping already matched cards or more than two flipped cards
-        if (flippedCards.length === 2 || flippedCards.includes(id)) {
-            console.log("HOLAAA")
-            return;
-        }
+        setCards(updatedCards);
 
-        setFlippedCards([...flippedCards, id]);
+        const flippedCards = updatedCards.filter(card => card.isFlipped);
 
-        console.log(flippedCards)
+        if (flippedCards.length === 2) {
+            const [firstCard, secondCard] = flippedCards;
 
-        if (flippedCards.length === 1) {
-            console.log("ENTRA")
-            const firstCard = cards.find((card) => card.id === flippedCards[0]);
-            const secondCard = cards.find((card) => card.id === id);
-
-            console.log(firstCard, secondCard)
-
-            if (firstCard && secondCard && firstCard.value === secondCard.id) {
+            if (firstCard.value === secondCard.id) {
                 // Match found
-                console.log("MATCHED");
-                // setFlippedCards([]);
-            } else {
-                // No match, flip cards back after a short delay
+                console.log("MATCH")
                 setTimeout(() => {
-                    setFlippedCards([]);
+                    setCards(prevCards =>
+                        prevCards.map(card =>
+                            card.isFlipped ? { ...card, isFlipped: true } : card
+                        )
+                    );
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    setCards(prevCards =>
+                        prevCards.map(card =>
+                            card.isFlipped ? { ...card, isFlipped: false } : card
+                        )
+                    );
                 }, 1000);
             }
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center px-4"> {/* Add padding to both sides */}
-            <div className="w-full max-w-screen-lg"> {/* Add padding to the left */}
+        <div className="min-h-screen flex items-center justify-center px-4">
+            <div className="w-full max-w-screen-lg">
                 <Grid container spacing={2}>
-                    {cards.map((card, i) => {
-                        return (
-                            <Grid item xs={2} sm={4} key={i}>
-                                <div onClick={() => handleCardClick(card.id)}>
-                                    <MemoCard id={card.id} />
-                                </div>
-                            </Grid>
-                        )
-                    })}
+                    {cards.map((card, i) => (
+                        <Grid item xs={2} sm={4} key={i}>
+                            <div onClick={() => handleCardClick(card.id)}>
+                                <Card style={{ transform: card.isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}>
+                                    <FrontCard>
+                                        Front {i}
+                                    </FrontCard>
+                                    <BackCard>
+                                        Back {i}
+                                    </BackCard>
+                                </Card>
+                            </div>
+                        </Grid>
+                    ))}
                 </Grid>
             </div>
         </div>
