@@ -24,7 +24,7 @@ export default function GameForm() {
         (!users) ? usersArray = [] : usersArray = JSON.parse(users);
         localStorage.setItem('user', name);
         localStorage.setItem('password', password);
-        usersArray.push(name);
+        !usersArray.includes(name) ? usersArray.push(name) : "";
         localStorage.setItem('users', JSON.stringify(usersArray));
     };
 

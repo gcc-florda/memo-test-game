@@ -18,9 +18,30 @@ interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
 }
 
-const getUserScore = (gameId: string) => {
-    const user = localStorage.getItem("user");
-    return localStorage.getItem(`${user}${gameId}`);
+const getUserScore = (gameId: string, userName: string = "") => {
+    let score = 0;
+    if (userName == "") {
+        const user = localStorage.getItem("user");
+        let userScore = localStorage.getItem(`${user}${gameId}`);
+        !userScore ? score = 0 : score = JSON.parse(userScore);
+    }
+    else {
+        let userScore = localStorage.getItem(`${userName}${gameId}`);
+        !userScore ? score = 0 : score = JSON.parse(userScore);
+    }
+    return score
+}
+
+const getHighestScore = (gameId: string) => {
+    let highestScore = 0;
+    let users = localStorage.getItem('users');
+    let usersArray;
+    (!users) ? usersArray = [] : usersArray = JSON.parse(users);
+    usersArray.map((user: string) => {
+        let userScore = getUserScore(gameId, user);
+        userScore > highestScore ? highestScore = userScore : highestScore;
+    });
+    return highestScore
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
@@ -74,7 +95,7 @@ export default function GameCard({ id, title, detail, img }: { id: string, title
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography paragraph>Your Score: {getUserScore(id) ? getUserScore(id) : 0}</Typography>
-                    <Typography paragraph>Highest Score: {getUserScore(id) ? getUserScore(id) : 0}</Typography>
+                    <Typography paragraph>Highest Score: {getHighestScore(id) ? getHighestScore(id) : 0}</Typography>
                 </CardContent>
             </Collapse>
         </Card >
