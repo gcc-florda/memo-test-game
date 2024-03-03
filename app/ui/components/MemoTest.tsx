@@ -13,14 +13,19 @@ interface MemoCardData {
     isMatched: boolean;
 }
 
+const saveGameScore = (gameId: string, score: number) => {
+    const user = localStorage.getItem("user");
+    localStorage.setItem(`${user}${gameId}`, JSON.stringify(score));
+}
+
 export function MemoTest({ id }: { id: string }) {
 
-    const [score, setScore] = useState(100);
+    const [retries, setRetries] = useState(0);
     const [matchedCards, setMatchedCards] = useState(0);
     const [openAlert, setOpenAlert] = useState(false);
 
-    const [cards, setCards] = useState<MemoCardData[]>(() => {
-        const initialCards: MemoCardData[] = [];
+    const [cards, setCards] = useState(() => {
+        const initialCards = [];
         for (let i = 0; i < 6; i++) {
             i % 2 == 0 ? initialCards.push(
                 { id: i, value: i + 1, isFlipped: true, isMatched: false }
@@ -36,6 +41,8 @@ export function MemoTest({ id }: { id: string }) {
     useEffect(() => {
         if (matchedCards === 6) {
             console.log("FINISHED GAME")
+            const score = ((matchedCards / 2) / (retries ? retries : 1)) * 100;
+            saveGameScore(id, score);
             setOpenAlert(true);
         }
     }, [matchedCards]);
@@ -72,7 +79,6 @@ export function MemoTest({ id }: { id: string }) {
                         !card.isFlipped ? { ...card, isMatched: true } : card
                     );
                     setCards(unflippedCards);
-                    setScore(score => score + 10);
                     setMatchedCards(matchedCards => matchedCards + 2);
                 }, 1000);
 
@@ -82,7 +88,7 @@ export function MemoTest({ id }: { id: string }) {
                         (!card.isFlipped && !card.isMatched) ? { ...card, isFlipped: true } : card
                     );
                     setCards(unflippedCards);
-                    setScore(score - 10);
+                    setRetries(retries => retries + 1)
                 }, 1000);
             }
         }
@@ -102,7 +108,7 @@ export function MemoTest({ id }: { id: string }) {
                 </Grid>
             </div>
             <div className="border border-white rounded-md p-2 mb-4">
-                <div className="text-white text-2xl">Score: {score}</div>
+                <div className="text-white text-2xl">Retries: {retries}</div>
             </div>
             <Snackbar
                 anchorOrigin={{
@@ -112,7 +118,7 @@ export function MemoTest({ id }: { id: string }) {
                 open={openAlert}
                 color='white'
                 autoHideDuration={6000}
-                message="Congratulations! You've matched all cards!"
+                message={`Congratulations! Your final score is ${((matchedCards / 2) / (retries ? retries : 1)) * 100}`}
                 action={
                     <Link href={"/home"}>
                         <Button color="primary" size="small">

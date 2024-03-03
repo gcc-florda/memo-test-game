@@ -3,7 +3,7 @@ import { memoGames } from "../lib/static-data";
 import Typography from '@mui/material/Typography';
 import GameCard from "../ui/components/GameCard";
 
-export default async function Page() {
+export default function Page() {
 
     return (
         <main>
