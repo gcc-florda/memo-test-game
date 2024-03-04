@@ -11,15 +11,16 @@ const FrontCard = styled('div')({
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
     backfaceVisibility: 'hidden',
-    border: '1px solid black', // Add black border
+    border: '1px solid black',
     '&:hover': {
         backgroundColor: '#e57373',
-    }
+    },
+    // backgroundSize: 'cover',
+    // backgroundPosition: 'center',
 });
 
 const BackCard = styled('div')({
     position: 'absolute',
-    // backgroundColor: '#ea80fc',
     height: 300,
     width: 250,
     display: 'flex',
@@ -28,7 +29,7 @@ const BackCard = styled('div')({
     transition: 'background-color 0.3s ease',
     backfaceVisibility: 'hidden',
     transform: 'rotateY(180deg)',
-    border: '1px solid black', // Add black border
+    border: '1px solid black',
     '&:hover': {
         backgroundColor: '#ba68c8',
     },

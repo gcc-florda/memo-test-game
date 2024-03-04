@@ -34,12 +34,12 @@ export function MemoTest({ id }: { id: string }) {
 
     const [cards, setCards] = useState(() => {
         const imageUrls = [
-            "/animals/1.png",
-            "/animals/2.png",
-            "/animals/3.png",
-            "/animals/4.png",
-            "/animals/5.png",
-            "/animals/6.png"
+            `/${id}/1.png`,
+            `/${id}/1.png`,
+            `/${id}/2.png`,
+            `/${id}/2.png`,
+            `/${id}/3.png`,
+            `/${id}/3.png`,
         ];
 
         const initialCards = [];
