@@ -32,6 +32,8 @@ export const getCards = (gameId: string) => {
         `/${gameId}/3.png`,
     ];
 
+    console.log("CREACION")
+
     const matchedCards = getMatchedCards(gameId);
     const shuffledPositions = getCardsPosition(gameId);
 

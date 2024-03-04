@@ -7,6 +7,7 @@ import { Grid, Button, Snackbar } from '@mui/material';
 import { MemoCard } from './MemoCard';
 import { saveGameScore, saveGame, matchedCardsAmount, getGameRetries } from '@/app/lib/actions';
 import { getCards } from '@/app/lib/utils';
+import { match } from 'assert';
 
 const CARDS = 6;
 
@@ -35,34 +36,14 @@ export function MemoTest({ id }: { id: string }) {
     const [retries, setRetries] = useState(0);
     const [matchedCards, setMatchedCards] = useState(0);
     const [openAlert, setOpenAlert] = useState(false);
-    const [cards, setCards] = useState(getCards(id));
+    const [cards, setCards] = useState(() => getCards(id));
 
     useEffect(() => {
         const matched = matchedCardsAmount(id);
         setRetries(getGameRetries(id));
         setMatchedCards(matched);
-        if (matched == 0) setCards(prevCards => shuffle(prevCards));
+        setCards(prevCards => shuffle(prevCards))
     }, []);
-
-    // useEffect(() => {
-
-    //     const matched = matchedCardsAmount(id);
-    //     setRetries(getGameRetries(id));
-    //     setMatchedCards(matched);
-    //     if (matched == 0) setCards(prevCards => shuffle(prevCards));
-    //     // const savedGame = getSavedGame(id);
-    //     const savedGame = localStorage.getItem(`savedGame${id}`);
-    //     if (savedGame) {
-    //         const game = JSON.parse(savedGame);
-    //         // setRetries(game.retries);
-    //         // setMatchedCards(game.matchedCards);
-    //         setCards(game.cards);
-    //     }
-    // }, []);
-
-    // useEffect(() => {
-    //     localStorage.setItem(`savedGame${id}`, JSON.stringify({ id, cards, retries, matchedCards }));
-    // }, [cards, retries, matchedCards]);
 
     useEffect(() => {
         if (matchedCards === CARDS) {
@@ -86,8 +67,6 @@ export function MemoTest({ id }: { id: string }) {
             const [firstCard, secondCard] = flippedCards;
 
             if (firstCard.value === secondCard.id) {
-                console.log("MATCH")
-
                 setTimeout(() => {
                     const unflippedCards = updatedCards.map(card =>
                         !card.isFlipped ? { ...card, isMatched: true } : card
@@ -96,19 +75,15 @@ export function MemoTest({ id }: { id: string }) {
                     setMatchedCards(matchedCards => matchedCards + 2);
                     saveGame(id, firstCard.id, secondCard.id, retries);
                 }, 1000);
-
-
             } else {
-                console.log("NO MATCH")
                 setTimeout(() => {
                     const unflippedCards = updatedCards.map(card =>
                         (!card.isFlipped && !card.isMatched) ? { ...card, isFlipped: true } : card
                     );
                     setCards(unflippedCards);
                     setRetries(retries => retries + 1)
-                    saveGame(id, -1, -1, retries);
+                    saveGame(id, -1, -1, retries + 1);
                 }, 1000);
-
             }
         }
     };
