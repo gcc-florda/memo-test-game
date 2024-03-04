@@ -39,11 +39,11 @@ export default function GameForm() {
                 </div>
                 <Stack className='mb-5' direction="row" spacing={2} justifyContent="center">
                     <Link href={"/home"}>
-                        <Button
+                        <button
                             className="text-white rounded-lg py-2 px-3 text-lg bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500"
                             onClick={() => { startGame(name, true) }}>
                             New Game
-                        </Button>
+                        </button>
                     </Link>
                 </Stack>
             </div>

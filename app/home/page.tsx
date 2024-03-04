@@ -6,7 +6,7 @@ export default function Page() {
     return (
         <main>
             <div className="mt-16 flex justify-center">
-                <div className="flex flex-wrap justify-center gap-20">
+                <div className="flex flex-wrap justify-center gap-20 mx-auto mt-20">
                     <>
                         {memoGames.map((game) => {
                             return (
