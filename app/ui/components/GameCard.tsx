@@ -49,7 +49,7 @@ export default function GameCard({ id, title, detail, img }: { id: string, title
     };
 
     return (
-        <Card sx={{ maxWidth: 345, backgroundColor: "#e1bee7" }}>
+        <Card className='bg-emerald-100'>
             <Image src='/animals.jpg' width={1000} height={140} className="hidden md:block" alt="Card Logo" />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
@@ -78,7 +78,7 @@ export default function GameCard({ id, title, detail, img }: { id: string, title
                 </ExpandMore>
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
+                <CardContent className='text-center font-semibold'>
                     <Typography paragraph>Latest Score: {score}</Typography>
                     <Typography paragraph>Highest Score: {highestScore}</Typography>
                 </CardContent>

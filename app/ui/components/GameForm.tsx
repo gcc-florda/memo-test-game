@@ -18,14 +18,14 @@ export default function GameForm() {
                 <div className="w-full mb-10">
                     <div>
                         <label
-                            className="mb-3 mt-5 block text-xs font-medium text-gray-900"
+                            className="mb-3 mt-5 block text-lg font-medium text-gray-900"
                             htmlFor="text"
                         >
                             Name
                         </label>
                         <div className="relative">
                             <input
-                                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-base  outline-2 placeholder:text-gray-500"
                                 id="name"
                                 type="text"
                                 name="name"
@@ -37,9 +37,11 @@ export default function GameForm() {
                         </div>
                     </div>
                 </div>
-                <Stack className='mb-5' direction="row" spacing={2}>
+                <Stack className='mb-5' direction="row" spacing={2} justifyContent="center">
                     <Link href={"/home"}>
-                        <Button variant="outlined" onClick={() => { startGame(name, true) }}>
+                        <Button
+                            className="text-white rounded-lg py-2 px-3 text-lg bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500"
+                            onClick={() => { startGame(name, true) }}>
                             New Game
                         </Button>
                     </Link>
