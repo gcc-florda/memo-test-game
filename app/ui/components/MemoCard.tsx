@@ -1,11 +1,9 @@
 "use client"
 
 import styled from '@mui/system/styled';
-import { useState } from 'react';
 
 const FrontCard = styled('div')({
     position: 'absolute',
-    backgroundColor: '#ff8a80',
     height: 300,
     width: 250,
     display: 'flex',
@@ -13,14 +11,16 @@ const FrontCard = styled('div')({
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
     backfaceVisibility: 'hidden',
+    border: '1px solid black',
     '&:hover': {
         backgroundColor: '#e57373',
     },
+    // backgroundSize: 'cover',
+    // backgroundPosition: 'center',
 });
 
 const BackCard = styled('div')({
     position: 'absolute',
-    backgroundColor: '#ea80fc',
     height: 300,
     width: 250,
     display: 'flex',
@@ -29,6 +29,7 @@ const BackCard = styled('div')({
     transition: 'background-color 0.3s ease',
     backfaceVisibility: 'hidden',
     transform: 'rotateY(180deg)',
+    border: '1px solid black',
     '&:hover': {
         backgroundColor: '#ba68c8',
     },
@@ -42,20 +43,17 @@ const Card = styled('div')({
     cursor: 'pointer',
     transition: 'transform 0.6s',
     transformStyle: 'preserve-3d',
-    '&:hover': {
-        backgroundColor: '#0d47a1',
-    },
 });
 
-export function MemoCard({ id, isFlipped }: { id: number, isFlipped: boolean }) {
+export function MemoCard({ id, img, isFlipped }: { id: number, img: string, isFlipped: boolean }) {
     return (
         <Card style={{ transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}>
-            <FrontCard>
+            <FrontCard style={{ backgroundImage: `url(${img})` }}>
                 Front {id}
             </FrontCard>
-            <BackCard>
+            <BackCard className='bg-gradient-to-r from-sky-500 to-indigo-500'>
                 Back {id}
             </BackCard>
-        </Card>
+        </Card >
     );
 }

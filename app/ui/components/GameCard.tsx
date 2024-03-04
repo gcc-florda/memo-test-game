@@ -64,7 +64,7 @@ export default function GameCard({ id, title, detail, img }: { id: string, title
             <Image src='/animals.jpg' width={1000} height={140} className="hidden md:block" alt="Card Logo" />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    {title}
+                    {title} Game
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                     {detail}
@@ -90,7 +90,7 @@ export default function GameCard({ id, title, detail, img }: { id: string, title
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    <Typography paragraph>Your Score: {getUserScore(id) ? getUserScore(id) : 0}</Typography>
+                    <Typography paragraph>Latest Score: {getUserScore(id) ? getUserScore(id) : 0}</Typography>
                     <Typography paragraph>Highest Score: {getHighestScore(id) ? getHighestScore(id) : 0}</Typography>
                 </CardContent>
             </Collapse>
