@@ -50,7 +50,9 @@ export default function GameCard({ id, title, detail, img }: { id: string, title
 
     return (
         <Card sx={{ backgroundColor: "#b2dfdb" }}>
-            <Image src='/animals.jpg' width={1000} height={140} className="hidden md:block" alt="Card Logo" priority={true} />
+            <div className='h-60 overflow-hidden'>
+                <Image src={img} width={1000} height={1000} className="hidden md:block" alt="Card Logo" priority={true} />
+            </div>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                     {title} Game

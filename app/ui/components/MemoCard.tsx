@@ -15,8 +15,8 @@ const FrontCard = styled('div')({
     '&:hover': {
         backgroundColor: '#e57373',
     },
-    // backgroundSize: 'cover',
-    // backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
 });
 
 const BackCard = styled('div')({
