@@ -64,7 +64,7 @@ export default function GameCard({ id, title, detail, img }: { id: string, title
             <Image src='/animals.jpg' width={1000} height={140} className="hidden md:block" alt="Card Logo" />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    {title}
+                    {title} Game
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                     {detail}

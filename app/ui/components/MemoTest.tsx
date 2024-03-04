@@ -8,6 +8,7 @@ import { MemoCard } from './MemoCard';
 
 interface MemoCardData {
     id: number;
+    img: string;
     value: number;
     isFlipped: boolean;
     isMatched: boolean;
@@ -17,7 +18,6 @@ const saveGameScore = (gameId: string, score: number) => {
     const user = localStorage.getItem("user");
     localStorage.setItem(`${user}${gameId}score`, JSON.stringify(score));
 
-    // Update Highest Score
     const highestScore = localStorage.getItem(`${user}${gameId}highest`);
 
     if (!highestScore || score > JSON.parse(highestScore)) {
@@ -33,11 +33,20 @@ export function MemoTest({ id }: { id: string }) {
     const [openAlert, setOpenAlert] = useState(false);
 
     const [cards, setCards] = useState(() => {
+        const imageUrls = [
+            "/animals/1.png",
+            "/animals/2.png",
+            "/animals/3.png",
+            "/animals/4.png",
+            "/animals/5.png",
+            "/animals/6.png"
+        ];
+
         const initialCards = [];
         for (let i = 0; i < 6; i++) {
             i % 2 == 0 ? initialCards.push(
-                { id: i, value: i + 1, isFlipped: true, isMatched: false }
-            ) : initialCards.push({ id: i, value: i - 1, isFlipped: true, isMatched: false });
+                { id: i, img: imageUrls[i], value: i + 1, isFlipped: true, isMatched: false }
+            ) : initialCards.push({ id: i, img: imageUrls[i], value: i - 1, isFlipped: true, isMatched: false });
         }
         return initialCards;
     });
@@ -48,7 +57,6 @@ export function MemoTest({ id }: { id: string }) {
 
     useEffect(() => {
         if (matchedCards === 6) {
-            console.log("FINISHED GAME")
             const score = ((matchedCards / 2) / (retries ? retries : 1)) * 100;
             saveGameScore(id, score);
             setOpenAlert(true);
@@ -109,7 +117,7 @@ export function MemoTest({ id }: { id: string }) {
                     {cards.map((card, i) => (
                         <Grid item xs={2} sm={4} key={i}>
                             <div onClick={() => handleCardClick(card.id)}>
-                                <MemoCard id={card.id} isFlipped={card.isFlipped} />
+                                <MemoCard id={card.id} img={card.img} isFlipped={card.isFlipped} />
                             </div>
                         </Grid>
                     ))}

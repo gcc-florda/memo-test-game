@@ -3,25 +3,25 @@
 export const memoGames = [
   {
     id: '1',
-    name: 'animals',
+    name: 'Animals',
     detail: 'Awsome Animal Memo Game',
     image_url: '/animals.jpg',
   },
   {
     id: '2',
-    name: 'weather',
+    name: 'Weather',
     detail: 'Awsome Weather Memo Game',
     image_url: '/games/weather.png',
   },
   {
     id: '3',
-    name: 'halloween',
+    name: 'Halloween',
     detail: 'Awsome Halloween Memo Game',
     image_url: '/games/halloween.png',
   },
   {
     id: '4',
-    name: 'drawings',
+    name: 'Drawings',
     detail: 'Awsome Drawings Memo Game',
     image_url: '/games/drawings.png',
   }

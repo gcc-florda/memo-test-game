@@ -44,10 +44,10 @@ const Card = styled('div')({
     transformStyle: 'preserve-3d',
 });
 
-export function MemoCard({ id, isFlipped }: { id: number, isFlipped: boolean }) {
+export function MemoCard({ id, img, isFlipped }: { id: number, img: string, isFlipped: boolean }) {
     return (
         <Card style={{ transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}>
-            <FrontCard className={`bg-[url(/animals/1.png)]`}>
+            <FrontCard style={{ backgroundImage: `url(${img})` }}>
                 Front {id}
             </FrontCard>
             <BackCard className='bg-gradient-to-r from-sky-500 to-indigo-500'>
