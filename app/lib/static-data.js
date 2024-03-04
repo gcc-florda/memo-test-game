@@ -3,27 +3,27 @@
 export const memoGames = [
   {
     id: '1',
-    name: 'Animal Game',
+    name: 'animals',
     detail: 'Awsome Animal Memo Game',
     image_url: '/animals.jpg',
   },
   {
     id: '2',
-    name: 'Figure Game',
-    detail: 'Awsome Figure Memo Game',
-    image_url: '/games/figure-game.png',
+    name: 'weather',
+    detail: 'Awsome Weather Memo Game',
+    image_url: '/games/weather.png',
   },
   {
     id: '3',
-    name: 'Food Game',
-    detail: 'Awsome Food Memo Game',
-    image_url: '/games/food-game.png',
+    name: 'halloween',
+    detail: 'Awsome Halloween Memo Game',
+    image_url: '/games/halloween.png',
   },
   {
     id: '4',
-    name: 'Sport Games',
-    detail: 'Awsome Sport Memo Game',
-    image_url: '/games/sport-game.png',
+    name: 'drawings',
+    detail: 'Awsome Drawings Memo Game',
+    image_url: '/games/drawings.png',
   }
 ];
 
