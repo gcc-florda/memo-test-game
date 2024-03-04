@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Grid, Button, Snackbar } from '@mui/material';
 import { MemoCard } from './MemoCard';
-import { saveGameScore } from '@/app/lib/actions';
+import { saveGameScore, saveGame, matchedCardsAmount, getGameRetries } from '@/app/lib/actions';
 import { getCards } from '@/app/lib/utils';
 
 const CARDS = 6;
@@ -16,15 +16,18 @@ interface MemoCardData {
     value: number;
     isFlipped: boolean;
     isMatched: boolean;
+    shuffledPosition: number;
 }
 
-const shuffle = (array: MemoCardData[]) => {
-    const shuffledArray = [...array];
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
+const shuffle = (cards: MemoCardData[]) => {
+    const shuffledCards = [...cards];
+    for (let i = shuffledCards.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+        shuffledCards[i].shuffledPosition = j;
+        shuffledCards[j].shuffledPosition = i;
+        [shuffledCards[i], shuffledCards[j]] = [shuffledCards[j], shuffledCards[i]];
     }
-    return shuffledArray;
+    return shuffledCards;
 };
 
 export function MemoTest({ id }: { id: string }) {
@@ -34,10 +37,35 @@ export function MemoTest({ id }: { id: string }) {
     const [openAlert, setOpenAlert] = useState(false);
     const [cards, setCards] = useState(getCards(id));
 
-    useEffect(() => { setCards(prevCards => shuffle(prevCards)); }, []);
+    useEffect(() => {
+        const matched = matchedCardsAmount(id);
+        setRetries(getGameRetries(id));
+        setMatchedCards(matched);
+        if (matched == 0) setCards(prevCards => shuffle(prevCards));
+    }, []);
+
+    // useEffect(() => {
+
+    //     const matched = matchedCardsAmount(id);
+    //     setRetries(getGameRetries(id));
+    //     setMatchedCards(matched);
+    //     if (matched == 0) setCards(prevCards => shuffle(prevCards));
+    //     // const savedGame = getSavedGame(id);
+    //     const savedGame = localStorage.getItem(`savedGame${id}`);
+    //     if (savedGame) {
+    //         const game = JSON.parse(savedGame);
+    //         // setRetries(game.retries);
+    //         // setMatchedCards(game.matchedCards);
+    //         setCards(game.cards);
+    //     }
+    // }, []);
+
+    // useEffect(() => {
+    //     localStorage.setItem(`savedGame${id}`, JSON.stringify({ id, cards, retries, matchedCards }));
+    // }, [cards, retries, matchedCards]);
 
     useEffect(() => {
-        if (matchedCards === 6) {
+        if (matchedCards === CARDS) {
             const score = (CARDS / (retries ? retries : 1)) * 100;
             saveGameScore(id, score);
             setOpenAlert(true);
@@ -58,22 +86,29 @@ export function MemoTest({ id }: { id: string }) {
             const [firstCard, secondCard] = flippedCards;
 
             if (firstCard.value === secondCard.id) {
+                console.log("MATCH")
+
                 setTimeout(() => {
                     const unflippedCards = updatedCards.map(card =>
                         !card.isFlipped ? { ...card, isMatched: true } : card
                     );
                     setCards(unflippedCards);
                     setMatchedCards(matchedCards => matchedCards + 2);
+                    saveGame(id, firstCard.id, secondCard.id, retries);
                 }, 1000);
 
+
             } else {
+                console.log("NO MATCH")
                 setTimeout(() => {
                     const unflippedCards = updatedCards.map(card =>
                         (!card.isFlipped && !card.isMatched) ? { ...card, isFlipped: true } : card
                     );
                     setCards(unflippedCards);
                     setRetries(retries => retries + 1)
+                    saveGame(id, -1, -1, retries);
                 }, 1000);
+
             }
         }
     };

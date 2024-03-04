@@ -15,8 +15,7 @@ import Link from 'next/link';
 import ExtensionRoundedIcon from '@mui/icons-material/ExtensionRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 
-const pages = ['home', 'scores'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['home'];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -150,31 +149,6 @@ function Navbar() {
               >
               </LogoutRoundedIcon>
             </Link>
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
           </Box>
         </Toolbar>
       </Container>

@@ -1,3 +1,5 @@
+import { getMatchedCards, getCardsPosition } from "./actions";
+
 export const getUserScore = (gameId: string, userName: string = "") => {
     let score = 0;
     if (userName == "") {
@@ -30,11 +32,19 @@ export const getCards = (gameId: string) => {
         `/${gameId}/3.png`,
     ];
 
+    const matchedCards = getMatchedCards(gameId);
+    const shuffledPositions = getCardsPosition(gameId);
+
     const initialCards = [];
     for (let i = 0; i < 6; i++) {
+        let isFlipped;
+        let shuffledPosition;
+        matchedCards.includes(i) ? isFlipped = false : isFlipped = true;
+        shuffledPositions.length != 0 ? shuffledPosition = shuffledPositions[i] : shuffledPosition = i;
+
         i % 2 == 0 ? initialCards.push(
-            { id: i, img: imageUrls[i], value: i + 1, isFlipped: true, isMatched: false }
-        ) : initialCards.push({ id: i, img: imageUrls[i], value: i - 1, isFlipped: true, isMatched: false });
+            { id: i, img: imageUrls[i], value: i + 1, isFlipped: isFlipped, isMatched: !isFlipped, shuffledPosition: i }
+        ) : initialCards.push({ id: i, img: imageUrls[i], value: i - 1, isFlipped: isFlipped, isMatched: !isFlipped, shuffledPosition: i });
     }
     return initialCards;
 }
