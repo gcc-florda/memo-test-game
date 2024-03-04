@@ -8,6 +8,8 @@ import { MemoCard } from './MemoCard';
 import { saveGameScore } from '@/app/lib/actions';
 import { getCards } from '@/app/lib/utils';
 
+const CARDS = 6;
+
 interface MemoCardData {
     id: number;
     img: string;
@@ -32,13 +34,11 @@ export function MemoTest({ id }: { id: string }) {
     const [openAlert, setOpenAlert] = useState(false);
     const [cards, setCards] = useState(getCards(id));
 
-    useEffect(() => {
-        setCards(prevCards => shuffle(prevCards));
-    }, []);
+    useEffect(() => { setCards(prevCards => shuffle(prevCards)); }, []);
 
     useEffect(() => {
         if (matchedCards === 6) {
-            const score = ((matchedCards / 2) / (retries ? retries : 1)) * 100;
+            const score = (CARDS / (retries ? retries : 1)) * 100;
             saveGameScore(id, score);
             setOpenAlert(true);
         }
@@ -102,7 +102,7 @@ export function MemoTest({ id }: { id: string }) {
                 open={openAlert}
                 color='white'
                 autoHideDuration={6000}
-                message={`Congratulations! Your final score is ${((matchedCards / 2) / (retries ? retries : 1)) * 100}`}
+                message={`Congratulations! Your final score is ${(CARDS / (retries ? retries : 1)) * 100}`}
                 action={
                     <Link href={"/home"}>
                         <Button color="primary" size="small">
