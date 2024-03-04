@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Grid, Button, Snackbar } from '@mui/material';
 import { MemoCard } from './MemoCard';
+import { saveGameScore } from '@/app/lib/actions';
+import { getCards } from '@/app/lib/utils';
 
 interface MemoCardData {
     id: number;
@@ -14,42 +16,21 @@ interface MemoCardData {
     isMatched: boolean;
 }
 
-const saveGameScore = (gameId: string, score: number) => {
-    const user = localStorage.getItem("user");
-    localStorage.setItem(`${user}${gameId}score`, JSON.stringify(score));
-
-    const highestScore = localStorage.getItem(`${user}${gameId}highest`);
-
-    if (!highestScore || score > JSON.parse(highestScore)) {
-        localStorage.setItem(`${user}${gameId}highest`, JSON.stringify(score));
+const shuffle = (array: MemoCardData[]) => {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
     }
-
-}
+    return shuffledArray;
+};
 
 export function MemoTest({ id }: { id: string }) {
 
     const [retries, setRetries] = useState(0);
     const [matchedCards, setMatchedCards] = useState(0);
     const [openAlert, setOpenAlert] = useState(false);
-
-    const [cards, setCards] = useState(() => {
-        const imageUrls = [
-            `/${id}/1.png`,
-            `/${id}/1.png`,
-            `/${id}/2.png`,
-            `/${id}/2.png`,
-            `/${id}/3.png`,
-            `/${id}/3.png`,
-        ];
-
-        const initialCards = [];
-        for (let i = 0; i < 6; i++) {
-            i % 2 == 0 ? initialCards.push(
-                { id: i, img: imageUrls[i], value: i + 1, isFlipped: true, isMatched: false }
-            ) : initialCards.push({ id: i, img: imageUrls[i], value: i - 1, isFlipped: true, isMatched: false });
-        }
-        return initialCards;
-    });
+    const [cards, setCards] = useState(getCards(id));
 
     useEffect(() => {
         setCards(prevCards => shuffle(prevCards));
@@ -63,28 +44,15 @@ export function MemoTest({ id }: { id: string }) {
         }
     }, [matchedCards]);
 
-    const shuffle = (array: MemoCardData[]) => {
-        const shuffledArray = [...array];
-        for (let i = shuffledArray.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
-        }
-        return shuffledArray;
-    };
-
     const handleCardClick = (clickedId: number) => {
         const updatedCards = cards.map(card => {
-            if (card.id === clickedId && card.isFlipped) {
-                return { ...card, isFlipped: false };
-            }
+            if (card.id === clickedId && card.isFlipped) return { ...card, isFlipped: false };
             return card;
         });
 
         setCards(updatedCards);
 
         const flippedCards = updatedCards.filter(card => (!card.isFlipped && !card.isMatched));
-
-        console.log(flippedCards);
 
         if (flippedCards.length === 2) {
             const [firstCard, secondCard] = flippedCards;
@@ -117,7 +85,7 @@ export function MemoTest({ id }: { id: string }) {
                     {cards.map((card, i) => (
                         <Grid item xs={2} sm={4} key={i}>
                             <div onClick={() => handleCardClick(card.id)}>
-                                <MemoCard id={card.id} img={card.img} isFlipped={card.isFlipped} />
+                                <MemoCard id={i + 1} img={card.img} isFlipped={card.isFlipped} />
                             </div>
                         </Grid>
                     ))}

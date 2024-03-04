@@ -24,6 +24,8 @@ const BackCard = styled('div')({
     height: 300,
     width: 250,
     display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 8,
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
@@ -34,6 +36,7 @@ const BackCard = styled('div')({
         backgroundColor: '#ba68c8',
     },
 });
+
 
 const Card = styled('div')({
     height: 300,
@@ -52,7 +55,7 @@ export function MemoCard({ id, img, isFlipped }: { id: number, img: string, isFl
                 Front {id}
             </FrontCard>
             <BackCard className='bg-gradient-to-r from-sky-500 to-indigo-500'>
-                Back {id}
+                <span className="text-white text-4xl">{id}</span>
             </BackCard>
         </Card >
     );

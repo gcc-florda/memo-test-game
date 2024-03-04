@@ -1,4 +1,3 @@
-// const memoGames = require('../lib/static-data.js');
 import { memoGames } from "../lib/static-data";
 import GameCard from "../ui/components/GameCard";
 
@@ -7,7 +6,7 @@ export default function Page() {
     return (
         <main>
             <div className="mt-16 flex justify-center">
-                <div className="grid grid-cols-2 gap-20 justify-items-center">
+                <div className="flex flex-wrap justify-center gap-20 mx-auto mt-20">
                     <>
                         {memoGames.map((game) => {
                             return (

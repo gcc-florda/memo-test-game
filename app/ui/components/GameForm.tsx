@@ -3,28 +3,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import {
-    AtSymbolIcon,
-    UserCircleIcon,
-    KeyIcon,
-    ExclamationCircleIcon,
-} from '@heroicons/react/24/outline';
-import { numberOfGames } from '@/app/lib/static-data';
+import { UserCircleIcon } from '@heroicons/react/24/outline';
+import { startGame } from '@/app/lib/actions';
 
 export default function GameForm() {
     const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
-
-    const startGame = (newGame: boolean) => {
-        localStorage.setItem('user', name);
-
-        if (newGame) {
-            for (let i = 0; i < numberOfGames; i++) {
-                localStorage.removeItem(`${name}${i}score`);
-                localStorage.removeItem(`${name}${i}highest`);
-            }
-        }
-    };
 
     return (
         <form className="space-y-3">
@@ -35,14 +18,14 @@ export default function GameForm() {
                 <div className="w-full mb-10">
                     <div>
                         <label
-                            className="mb-3 mt-5 block text-xs font-medium text-gray-900"
+                            className="mb-3 mt-5 block text-lg font-medium text-gray-900"
                             htmlFor="text"
                         >
                             Name
                         </label>
                         <div className="relative">
                             <input
-                                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-base  outline-2 placeholder:text-gray-500"
                                 id="name"
                                 type="text"
                                 name="name"
@@ -54,16 +37,13 @@ export default function GameForm() {
                         </div>
                     </div>
                 </div>
-                <Stack className='mb-5' direction="row" spacing={2}>
+                <Stack className='mb-5' direction="row" spacing={2} justifyContent="center">
                     <Link href={"/home"}>
-                        <Button variant="outlined" onClick={() => { startGame(true) }}>
+                        <button
+                            className="text-white rounded-lg py-2 px-3 text-lg bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500"
+                            onClick={() => { startGame(name, true) }}>
                             New Game
-                        </Button>
-                    </Link>
-                    <Link href={"/home"}>
-                        <Button variant="outlined" onClick={() => { startGame(false) }}>
-                            Continue
-                        </Button>
+                        </button>
                     </Link>
                 </Stack>
             </div>

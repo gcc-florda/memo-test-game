@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Link from 'next/link';
 import ExtensionRoundedIcon from '@mui/icons-material/ExtensionRounded';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 
 const pages = ['home', 'scores'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -37,10 +38,10 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" className='bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%'>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Link href={"/"}>
+          <Link href={"/home"}>
             <IconButton aria-label="Home" sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} style={{ textDecoration: 'none', color: "white" }}>
               <ExtensionRoundedIcon sx={{ fontSize: '2.5rem' }} />
             </IconButton>
@@ -58,7 +59,7 @@ function Navbar() {
               textDecoration: 'none',
             }}
           >
-            <Link href={"/"} style={{ textDecoration: 'none', color: "white" }}>
+            <Link href={"/home"} style={{ textDecoration: 'none', color: "white" }}>
               <span>MemoTest</span>
             </Link>
           </Typography>
@@ -94,7 +95,7 @@ function Navbar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Link href={`/${page}`} style={{ textDecoration: 'none' }}>
+                  <Link href={`/home`} style={{ textDecoration: 'none' }}>
                     <Typography textAlign="center" sx={{ textTransform: 'uppercase' }}>{page}</Typography>
                   </Link>
                 </MenuItem>
@@ -102,7 +103,7 @@ function Navbar() {
             </Menu>
           </Box>
 
-          <Link href={"/"}>
+          <Link href={"/home"}>
             <IconButton aria-label="Home" sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} style={{ textDecoration: 'none', color: "white" }}>
               <ExtensionRoundedIcon sx={{ fontSize: '2.5rem' }} />
             </IconButton>
@@ -121,13 +122,13 @@ function Navbar() {
               textDecoration: 'none',
             }}
           >
-            <Link href={"/"} style={{ textDecoration: 'none', color: "white" }}>
+            <Link href={"/home"} style={{ textDecoration: 'none', color: "white" }}>
               <span>MemoTest</span>
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Link href={`/${page}`} style={{ textDecoration: 'none' }} key={page}>
+              <Link href={`/home`} style={{ textDecoration: 'none' }} key={page}>
                 <Button
                   key={page}
                   sx={{ my: 2, color: 'white', display: 'block' }}
@@ -136,6 +137,19 @@ function Navbar() {
                 </Button>
               </Link>
             ))}
+          </Box>
+
+          <Box>
+            <Link href={"/"} style={{ textDecoration: 'none', color: "white" }}>
+              <LogoutRoundedIcon
+                sx={{ fontSize: '2.0rem' }}
+                aria-label="Logout"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+              </LogoutRoundedIcon>
+            </Link>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
