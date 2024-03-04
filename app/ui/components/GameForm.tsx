@@ -3,28 +3,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import {
-    AtSymbolIcon,
-    UserCircleIcon,
-    KeyIcon,
-    ExclamationCircleIcon,
-} from '@heroicons/react/24/outline';
-import { numberOfGames } from '@/app/lib/static-data';
+import { UserCircleIcon } from '@heroicons/react/24/outline';
+import { startGame } from '@/app/lib/actions';
 
 export default function GameForm() {
     const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
-
-    const startGame = (newGame: boolean) => {
-        localStorage.setItem('user', name);
-
-        if (newGame) {
-            for (let i = 0; i < numberOfGames; i++) {
-                localStorage.removeItem(`${name}${i}score`);
-                localStorage.removeItem(`${name}${i}highest`);
-            }
-        }
-    };
 
     return (
         <form className="space-y-3">
@@ -56,13 +39,8 @@ export default function GameForm() {
                 </div>
                 <Stack className='mb-5' direction="row" spacing={2}>
                     <Link href={"/home"}>
-                        <Button variant="outlined" onClick={() => { startGame(true) }}>
+                        <Button variant="outlined" onClick={() => { startGame(name, true) }}>
                             New Game
-                        </Button>
-                    </Link>
-                    <Link href={"/home"}>
-                        <Button variant="outlined" onClick={() => { startGame(false) }}>
-                            Continue
                         </Button>
                     </Link>
                 </Stack>

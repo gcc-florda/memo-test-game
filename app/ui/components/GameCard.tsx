@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from 'react';
+import { useState } from 'react';
 import Card from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import CardActions from '@mui/material/CardActions';
@@ -10,34 +11,14 @@ import Collapse from '@mui/material/Collapse';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Favourite from '@mui/icons-material/Favorite';
+import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded';
 import Image from 'next/image';
 import Link from 'next/link';
+import { restartGameSession } from '@/app/lib/actions';
+import { getUserScore, getHighestScore } from '@/app/lib/utils';
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
-}
-
-const getUserScore = (gameId: string, userName: string = "") => {
-    let score = 0;
-    if (userName == "") {
-        const user = localStorage.getItem("user");
-        let userScore = localStorage.getItem(`${user}${gameId}score`);
-        !userScore ? score = 0 : score = JSON.parse(userScore);
-    }
-    else {
-        let userScore = localStorage.getItem(`${userName}${gameId}score`);
-        !userScore ? score = 0 : score = JSON.parse(userScore);
-    }
-    return score
-}
-
-const getHighestScore = (gameId: string) => {
-    let score = 0;
-    const user = localStorage.getItem("user");
-    let userScore = localStorage.getItem(`${user}${gameId}highest`);
-    !userScore ? score = 0 : score = JSON.parse(userScore);
-    return score
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
@@ -53,10 +34,18 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 export default function GameCard({ id, title, detail, img }: { id: string, title: string, detail: string, img: string }) {
 
-    const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = useState(false);
+    const [score, setScore] = useState(getUserScore(id));
+    const [highestScore, setHighestScore] = useState(getHighestScore(id));
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
+    };
+
+    const handleReplayClick = () => {
+        restartGameSession(id);
+        setScore(0);
+        setHighestScore(0);
     };
 
     return (
@@ -73,11 +62,11 @@ export default function GameCard({ id, title, detail, img }: { id: string, title
             <CardActions disableSpacing>
                 <Link href={`/home/game/${id}`}>
                     <IconButton aria-label="play" >
-                        <PlayArrowRoundedIcon sx={{ fontSize: '2.5rem' }} />
+                        <PlayArrowRoundedIcon sx={{ fontSize: '2.0rem' }} />
                     </IconButton>
                 </Link>
-                <IconButton aria-label="share">
-                    <Favourite />
+                <IconButton aria-label="replay" onClick={handleReplayClick}>
+                    <ReplayRoundedIcon sx={{ fontSize: '1.5rem' }} />
                 </IconButton>
                 <ExpandMore
                     expand={expanded}
@@ -90,8 +79,8 @@ export default function GameCard({ id, title, detail, img }: { id: string, title
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    <Typography paragraph>Latest Score: {getUserScore(id) ? getUserScore(id) : 0}</Typography>
-                    <Typography paragraph>Highest Score: {getHighestScore(id) ? getHighestScore(id) : 0}</Typography>
+                    <Typography paragraph>Latest Score: {score}</Typography>
+                    <Typography paragraph>Highest Score: {highestScore}</Typography>
                 </CardContent>
             </Collapse>
         </Card >
