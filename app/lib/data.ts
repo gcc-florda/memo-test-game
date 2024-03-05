@@ -32,7 +32,7 @@ export const getGameRetries = (gameId: string) => {
     return 0
 }
 
-export const matchedCardsAmount = (gameId: string) => { return getMatchedCards(gameId).length; }
+export const getMatchedCardsAmount = (gameId: string) => { return getMatchedCards(gameId).length; }
 
 export const getMatchedCards = (gameId: string) => {
     const user = localStorage.getItem("user");

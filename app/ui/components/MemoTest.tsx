@@ -1,60 +1,40 @@
 "use client"
 
 import * as React from 'react';
-import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Grid, Button, Snackbar } from '@mui/material';
+import { Grid } from '@mui/material';
 import { MemoCard } from './MemoCard';
-import { saveGameScore, saveGame, matchedCardsAmount, getGameRetries, restartGameSession } from '@/app/lib/data';
-import { getCards } from '@/app/lib/utils';
+import { WinnerCard } from './WinnerCard';
+import { saveGameScore, saveGame, getMatchedCardsAmount, getGameRetries, restartGameSession } from '@/app/lib/data';
+import { getCards, shuffleCards } from '@/app/lib/utils';
 import { numberOfCards } from '@/app/lib/static-data';
-
-interface MemoCardData {
-    id: number;
-    img: string;
-    value: number;
-    isFlipped: boolean;
-    isMatched: boolean;
-    shuffledPosition: number;
-}
-
-const shuffle = (cards: MemoCardData[]) => {
-    const shuffledCards = [...cards];
-    for (let i = shuffledCards.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        shuffledCards[i].shuffledPosition = j;
-        shuffledCards[j].shuffledPosition = i;
-        [shuffledCards[i], shuffledCards[j]] = [shuffledCards[j], shuffledCards[i]];
-    }
-    return shuffledCards;
-};
 
 export function MemoTest({ id }: { id: string }) {
 
     const [retries, setRetries] = useState(0);
     const [matchedCards, setMatchedCards] = useState(0);
-    const [openAlert, setOpenAlert] = useState(false);
     const [cards, setCards] = useState(() => getCards(id));
+    const [showWinnerCard, setWinnerCard] = useState(false);
 
     useEffect(() => {
-        const matched = matchedCardsAmount(id);
+        const matched = getMatchedCardsAmount(id);
         setRetries(getGameRetries(id));
         setMatchedCards(matched);
-        setCards(prevCards => shuffle(prevCards))
+        setCards(prevCards => shuffleCards(prevCards))
     }, []);
 
     useEffect(() => {
-        if (matchedCards === numberOfCards) {
-            const score = Math.ceil((numberOfCards / (retries ? retries : 1)) * 100)
+        if (matchedCards == numberOfCards) {
+            const score = (numberOfCards / (retries ? retries : 1)) * 100;
             saveGameScore(id, score);
             restartGameSession(id);
-            setOpenAlert(true);
+            setWinnerCard(true);
         }
     }, [matchedCards]);
 
     const handleCardClick = (clickedId: number) => {
         const updatedCards = cards.map(card => {
-            if (card.id === clickedId && card.isFlipped) return { ...card, isFlipped: false };
+            if (card.id == clickedId && card.isFlipped) return { ...card, isFlipped: false };
             return card;
         });
 
@@ -62,23 +42,19 @@ export function MemoTest({ id }: { id: string }) {
 
         const flippedCards = updatedCards.filter(card => (!card.isFlipped && !card.isMatched));
 
-        if (flippedCards.length === 2) {
+        if (flippedCards.length == 2) {
             const [firstCard, secondCard] = flippedCards;
 
-            if (firstCard.value === secondCard.id) {
+            if (firstCard.value == secondCard.id) {
                 setTimeout(() => {
-                    const unflippedCards = updatedCards.map(card =>
-                        !card.isFlipped ? { ...card, isMatched: true } : card
-                    );
+                    const unflippedCards = updatedCards.map(card => !card.isFlipped ? { ...card, isMatched: true } : card);
                     setCards(unflippedCards);
                     setMatchedCards(matchedCards => matchedCards + 2);
                     saveGame(id, firstCard.id, secondCard.id, retries);
                 }, 1000);
             } else {
                 setTimeout(() => {
-                    const unflippedCards = updatedCards.map(card =>
-                        (!card.isFlipped && !card.isMatched) ? { ...card, isFlipped: true } : card
-                    );
+                    const unflippedCards = updatedCards.map(card => (!card.isFlipped && !card.isMatched) ? { ...card, isFlipped: true } : card);
                     setCards(unflippedCards);
                     setRetries(retries => retries + 1)
                     saveGame(id, -1, -1, retries + 1);
@@ -103,23 +79,8 @@ export function MemoTest({ id }: { id: string }) {
             <div className="border border-white rounded-md p-2 mb-4">
                 <div className="text-white text-2xl">Retries: {retries}</div>
             </div>
-            <Snackbar
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
-                open={openAlert}
-                color='white'
-                autoHideDuration={6000}
-                message={`Congratulations! Your final score is ${(Math.ceil((numberOfCards / (retries ? retries : 1)) * 100))}`}
-                action={
-                    <Link href={"/home"}>
-                        <Button color="primary" size="small">
-                            Home
-                        </Button>
-                    </Link>
-                }
-            />
+
+            {showWinnerCard && (<WinnerCard score={(numberOfCards / (retries ? retries : 1)) * 100} />)}
         </div>
     );
 }
