@@ -25,6 +25,15 @@ export const getHighestScore = (gameId: string) => {
     return score
 }
 
+export const shuffleCards = (cards: any[]) => {
+    const shuffledCards = [...cards];
+    for (let i = shuffledCards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledCards[i], shuffledCards[j]] = [shuffledCards[j], shuffledCards[i]];
+    }
+    return shuffledCards;
+};
+
 export const getCards = (gameId: string) => {
     const imageUrls = [
         `/${gameId}/1.png`,
@@ -46,8 +55,8 @@ export const getCards = (gameId: string) => {
         shuffledPositions.length != 0 ? shuffledPosition = shuffledPositions[i] : shuffledPosition = i;
 
         i % 2 == 0 ? initialCards.push(
-            { id: i, img: imageUrls[i], value: i + 1, isFlipped: isFlipped, isMatched: !isFlipped, shuffledPosition: i }
-        ) : initialCards.push({ id: i, img: imageUrls[i], value: i - 1, isFlipped: isFlipped, isMatched: !isFlipped, shuffledPosition: i });
+            { id: i, img: imageUrls[i], value: i + 1, isFlipped: isFlipped, isMatched: !isFlipped }
+        ) : initialCards.push({ id: i, img: imageUrls[i], value: i - 1, isFlipped: isFlipped, isMatched: !isFlipped });
     }
     return initialCards;
 }
