@@ -14,7 +14,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded';
 import Image from 'next/image';
 import Link from 'next/link';
-import { restartGameSession } from '@/app/lib/actions';
+import { restartGameSession } from '@/app/lib/data';
 import { getUserScore, getHighestScore } from '@/app/lib/utils';
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -33,20 +33,13 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 export default function GameCard({ id, title, detail, img }: { id: string, title: string, detail: string, img: string }) {
-
     const [expanded, setExpanded] = useState(false);
-    const [score, setScore] = useState(getUserScore(id));
-    const [highestScore, setHighestScore] = useState(getHighestScore(id));
+    const [score, setScore] = useState(() => getUserScore(id));
+    const [highestScore, setHighestScore] = useState(() => getHighestScore(id));
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
+    const handleExpandClick = () => { setExpanded(!expanded); };
 
-    const handleReplayClick = () => {
-        restartGameSession(id);
-        setScore(0);
-        setHighestScore(0);
-    };
+    const handleReplayClick = () => { restartGameSession(id); };
 
     return (
         <Card sx={{ backgroundColor: "#b2dfdb" }}>
@@ -67,9 +60,11 @@ export default function GameCard({ id, title, detail, img }: { id: string, title
                         <PlayArrowRoundedIcon sx={{ fontSize: '2.0rem' }} />
                     </IconButton>
                 </Link>
-                <IconButton aria-label="replay" onClick={handleReplayClick}>
-                    <ReplayRoundedIcon sx={{ fontSize: '1.5rem' }} />
-                </IconButton>
+                <Link href={`/home/game/${id}`} >
+                    <IconButton aria-label="replay" onClick={handleReplayClick}>
+                        <ReplayRoundedIcon sx={{ fontSize: '1.5rem' }} />
+                    </IconButton>
+                </Link>
                 <ExpandMore
                     expand={expanded}
                     onClick={handleExpandClick}

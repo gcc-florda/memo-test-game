@@ -51,12 +51,10 @@ const Card = styled('div')({
 export function MemoCard({ id, img, isFlipped }: { id: number, img: string, isFlipped: boolean }) {
     return (
         <Card style={{ transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}>
-            <FrontCard style={{ backgroundImage: `url(${img})` }}>
-                Front {id}
-            </FrontCard>
             <BackCard className='bg-gradient-to-r from-sky-500 to-indigo-500'>
                 <span className="text-white text-4xl">{id}</span>
             </BackCard>
+            <FrontCard style={{ backgroundImage: `url(${img})` }} />
         </Card >
     );
 }

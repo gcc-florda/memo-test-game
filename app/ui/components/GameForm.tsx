@@ -2,9 +2,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import { UserCircleIcon } from '@heroicons/react/24/outline';
-import { startGame } from '@/app/lib/actions';
+import { startGame } from '@/app/lib/data';
 
 export default function GameForm() {
     const [name, setName] = useState('');
@@ -41,7 +40,7 @@ export default function GameForm() {
                     <Link href={"/home"}>
                         <button
                             className="text-white rounded-lg py-2 px-3 text-lg bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500"
-                            onClick={() => { startGame(name, true) }}>
+                            onClick={() => { startGame(name) }}>
                             New Game
                         </button>
                     </Link>

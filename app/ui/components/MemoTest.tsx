@@ -5,10 +5,9 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Grid, Button, Snackbar } from '@mui/material';
 import { MemoCard } from './MemoCard';
-import { saveGameScore } from '@/app/lib/actions';
+import { saveGameScore, saveGame, matchedCardsAmount, getGameRetries, restartGameSession } from '@/app/lib/data';
 import { getCards } from '@/app/lib/utils';
-
-const CARDS = 6;
+import { numberOfCards } from '@/app/lib/static-data';
 
 interface MemoCardData {
     id: number;
@@ -16,15 +15,18 @@ interface MemoCardData {
     value: number;
     isFlipped: boolean;
     isMatched: boolean;
+    shuffledPosition: number;
 }
 
-const shuffle = (array: MemoCardData[]) => {
-    const shuffledArray = [...array];
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
+const shuffle = (cards: MemoCardData[]) => {
+    const shuffledCards = [...cards];
+    for (let i = shuffledCards.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+        shuffledCards[i].shuffledPosition = j;
+        shuffledCards[j].shuffledPosition = i;
+        [shuffledCards[i], shuffledCards[j]] = [shuffledCards[j], shuffledCards[i]];
     }
-    return shuffledArray;
+    return shuffledCards;
 };
 
 export function MemoTest({ id }: { id: string }) {
@@ -32,14 +34,20 @@ export function MemoTest({ id }: { id: string }) {
     const [retries, setRetries] = useState(0);
     const [matchedCards, setMatchedCards] = useState(0);
     const [openAlert, setOpenAlert] = useState(false);
-    const [cards, setCards] = useState(getCards(id));
-
-    useEffect(() => { setCards(prevCards => shuffle(prevCards)); }, []);
+    const [cards, setCards] = useState(() => getCards(id));
 
     useEffect(() => {
-        if (matchedCards === 6) {
-            const score = (CARDS / (retries ? retries : 1)) * 100;
+        const matched = matchedCardsAmount(id);
+        setRetries(getGameRetries(id));
+        setMatchedCards(matched);
+        setCards(prevCards => shuffle(prevCards))
+    }, []);
+
+    useEffect(() => {
+        if (matchedCards === numberOfCards) {
+            const score = Math.ceil((numberOfCards / (retries ? retries : 1)) * 100)
             saveGameScore(id, score);
+            restartGameSession(id);
             setOpenAlert(true);
         }
     }, [matchedCards]);
@@ -64,8 +72,8 @@ export function MemoTest({ id }: { id: string }) {
                     );
                     setCards(unflippedCards);
                     setMatchedCards(matchedCards => matchedCards + 2);
+                    saveGame(id, firstCard.id, secondCard.id, retries);
                 }, 1000);
-
             } else {
                 setTimeout(() => {
                     const unflippedCards = updatedCards.map(card =>
@@ -73,6 +81,7 @@ export function MemoTest({ id }: { id: string }) {
                     );
                     setCards(unflippedCards);
                     setRetries(retries => retries + 1)
+                    saveGame(id, -1, -1, retries + 1);
                 }, 1000);
             }
         }
@@ -102,7 +111,7 @@ export function MemoTest({ id }: { id: string }) {
                 open={openAlert}
                 color='white'
                 autoHideDuration={6000}
-                message={`Congratulations! Your final score is ${(CARDS / (retries ? retries : 1)) * 100}`}
+                message={`Congratulations! Your final score is ${(Math.ceil((numberOfCards / (retries ? retries : 1)) * 100))}`}
                 action={
                     <Link href={"/home"}>
                         <Button color="primary" size="small">
