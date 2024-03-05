@@ -1,10 +1,10 @@
 "use client"
 
 import * as React from 'react';
-import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Grid, Button, Snackbar } from '@mui/material';
+import { Grid } from '@mui/material';
 import { MemoCard } from './MemoCard';
+import { WinnerCard } from './WinnerCard';
 import { saveGameScore, saveGame, matchedCardsAmount, getGameRetries, restartGameSession } from '@/app/lib/data';
 import { getCards } from '@/app/lib/utils';
 import { numberOfCards } from '@/app/lib/static-data';
@@ -33,8 +33,8 @@ export function MemoTest({ id }: { id: string }) {
 
     const [retries, setRetries] = useState(0);
     const [matchedCards, setMatchedCards] = useState(0);
-    const [openAlert, setOpenAlert] = useState(false);
     const [cards, setCards] = useState(() => getCards(id));
+    const [showWinnerCard, setWinnerCard] = useState(false);
 
     useEffect(() => {
         const matched = matchedCardsAmount(id);
@@ -45,10 +45,10 @@ export function MemoTest({ id }: { id: string }) {
 
     useEffect(() => {
         if (matchedCards === numberOfCards) {
-            const score = Math.ceil((numberOfCards / (retries ? retries : 1)) * 100)
+            const score = (numberOfCards / (retries ? retries : 1)) * 100;
             saveGameScore(id, score);
             restartGameSession(id);
-            setOpenAlert(true);
+            setWinnerCard(true);
         }
     }, [matchedCards]);
 
@@ -103,23 +103,8 @@ export function MemoTest({ id }: { id: string }) {
             <div className="border border-white rounded-md p-2 mb-4">
                 <div className="text-white text-2xl">Retries: {retries}</div>
             </div>
-            <Snackbar
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
-                open={openAlert}
-                color='white'
-                autoHideDuration={6000}
-                message={`Congratulations! Your final score is ${(Math.ceil((numberOfCards / (retries ? retries : 1)) * 100))}`}
-                action={
-                    <Link href={"/home"}>
-                        <Button color="primary" size="small">
-                            Home
-                        </Button>
-                    </Link>
-                }
-            />
+
+            {showWinnerCard && (<WinnerCard score={(numberOfCards / (retries ? retries : 1)) * 100} />)}
         </div>
     );
 }
