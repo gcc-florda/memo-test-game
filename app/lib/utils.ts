@@ -1,9 +1,12 @@
-import { getMatchedCards, getCardsPosition } from "./actions";
+import { getMatchedCards, getCardsPosition } from "./data";
+import { numberOfCards } from '@/app/lib/static-data';
+
 
 export const getUserScore = (gameId: string, userName: string = "") => {
     let score = 0;
     if (userName == "") {
         const user = localStorage.getItem("user");
+        const username = JSON.stringify(user);
         let userScore = localStorage.getItem(`${user}${gameId}score`);
         !userScore ? score = 0 : score = JSON.parse(userScore);
     }
@@ -38,7 +41,7 @@ export const getCards = (gameId: string) => {
     const shuffledPositions = getCardsPosition(gameId);
 
     const initialCards = [];
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < numberOfCards; i++) {
         let isFlipped;
         let shuffledPosition;
         matchedCards.includes(i) ? isFlipped = false : isFlipped = true;

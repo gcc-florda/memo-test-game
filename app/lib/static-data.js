@@ -28,3 +28,4 @@ export const memoGames = [
 ];
 
 export const numberOfGames = memoGames.length;
+export const numberOfCards = 6;

@@ -2,7 +2,6 @@ import { memoGames } from "../lib/static-data";
 import GameCard from "../ui/components/GameCard";
 
 export default function Page() {
-
     return (
         <main>
             <div className="mt-16 flex justify-center">

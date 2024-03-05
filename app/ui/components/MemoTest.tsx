@@ -5,11 +5,9 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Grid, Button, Snackbar } from '@mui/material';
 import { MemoCard } from './MemoCard';
-import { saveGameScore, saveGame, matchedCardsAmount, getGameRetries } from '@/app/lib/actions';
+import { saveGameScore, saveGame, matchedCardsAmount, getGameRetries, restartGameSession } from '@/app/lib/data';
 import { getCards } from '@/app/lib/utils';
-import { match } from 'assert';
-
-const CARDS = 6;
+import { numberOfCards } from '@/app/lib/static-data';
 
 interface MemoCardData {
     id: number;
@@ -46,9 +44,10 @@ export function MemoTest({ id }: { id: string }) {
     }, []);
 
     useEffect(() => {
-        if (matchedCards === CARDS) {
-            const score = (CARDS / (retries ? retries : 1)) * 100;
+        if (matchedCards === numberOfCards) {
+            const score = Math.ceil((numberOfCards / (retries ? retries : 1)) * 100)
             saveGameScore(id, score);
+            restartGameSession(id);
             setOpenAlert(true);
         }
     }, [matchedCards]);
@@ -112,7 +111,7 @@ export function MemoTest({ id }: { id: string }) {
                 open={openAlert}
                 color='white'
                 autoHideDuration={6000}
-                message={`Congratulations! Your final score is ${(CARDS / (retries ? retries : 1)) * 100}`}
+                message={`Congratulations! Your final score is ${(Math.ceil((numberOfCards / (retries ? retries : 1)) * 100))}`}
                 action={
                     <Link href={"/home"}>
                         <Button color="primary" size="small">
