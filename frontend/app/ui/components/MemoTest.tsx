@@ -8,6 +8,7 @@ import { WinnerCard } from './WinnerCard';
 import { saveGameScore, saveGame, getMatchedCardsAmount, getGameRetries, restartGameSession } from '@/app/lib/data';
 import { getCards, shuffleCards } from '@/app/lib/utils';
 import { numberOfCards } from '@/app/lib/static-data';
+import WinnerConffeti from '../animations/Conffeti';
 
 export function MemoTest({ id }: { id: string }) {
 
@@ -25,7 +26,7 @@ export function MemoTest({ id }: { id: string }) {
 
     useEffect(() => {
         if (matchedCards == numberOfCards) {
-            const score = (numberOfCards / (retries ? retries : 1)) * 100;
+            const score = ((numberOfCards / 2) / (retries ? retries : 1)) * 100;
             saveGameScore(id, score);
             restartGameSession(id);
             setWinnerCard(true);
@@ -80,7 +81,14 @@ export function MemoTest({ id }: { id: string }) {
                 <div className="text-white text-2xl">Retries: {retries}</div>
             </div>
 
-            {showWinnerCard && (<WinnerCard score={(numberOfCards / (retries ? retries : 1)) * 100} />)}
+            {
+                showWinnerCard && (
+                    <div>
+                        <WinnerCard score={((numberOfCards / 2) / (retries ? retries : 1)) * 100} />
+                        <WinnerConffeti></WinnerConffeti>
+                    </div>
+                )
+            }
         </div>
     );
 }

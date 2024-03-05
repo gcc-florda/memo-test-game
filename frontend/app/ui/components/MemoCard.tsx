@@ -25,7 +25,7 @@ const BackCard = styled('div')({
     alignItems: 'center',
     borderRadius: 8,
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
+    transition: 'background-color 1.5s ease',
     backfaceVisibility: 'hidden',
     transform: 'rotateY(180deg)',
     border: '1px solid black',
