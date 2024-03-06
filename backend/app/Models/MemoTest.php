@@ -9,8 +9,5 @@ class MemoTest extends Model
 {
     use HasFactory;
 
-    public function cards(): HasMany
-    {
-        return $this->hasMany(Cards::class, 'card_id');
-    }
+    public $timestamps = false;
 }
