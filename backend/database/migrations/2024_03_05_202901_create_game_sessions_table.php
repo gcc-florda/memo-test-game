@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('game_sessions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('memo_tests_id')->constrained(
-                table: 'memo_tests', indexName: 'id'
-            );  
+            $table->integer('memo_tests_id');
             $table->integer('retries');
             $table->integer('number_of_pairs');
             $table->enum('state', ['STARTED', 'COMPLETED']);
