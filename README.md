@@ -15,7 +15,7 @@ git clone https://github.com/gcc-florda/memo-test-game.git
 
 2. Enter the repository folder
 ```sh
-cd memo-test-game
+cd memo-test-game/frontend
 ```
 
 3. Install npm packages
