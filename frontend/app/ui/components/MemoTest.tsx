@@ -26,7 +26,7 @@ export function MemoTest({ id }: { id: string }) {
 
     useEffect(() => {
         if (matchedCards == numberOfCards) {
-            const score = ((numberOfCards / 2) / (retries ? retries : 1)) * 100;
+            const score = Math.round(((numberOfCards / 2) / (retries ? retries : 1)) * 100);
             saveGameScore(id, score);
             restartGameSession(id);
             setWinnerCard(true);
@@ -84,7 +84,7 @@ export function MemoTest({ id }: { id: string }) {
             {
                 showWinnerCard && (
                     <div>
-                        <WinnerCard score={((numberOfCards / 2) / (retries ? retries : 1)) * 100} />
+                        <WinnerCard score={Math.round(((numberOfCards / 2) / (retries ? retries : 1)) * 100)} />
                         <WinnerConffeti></WinnerConffeti>
                     </div>
                 )

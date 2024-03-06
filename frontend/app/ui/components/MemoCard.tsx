@@ -46,11 +46,19 @@ export function MemoCard({ id, img, isFlipped }: { id: number, img: string, isFl
     useEffect(() => { setAnimationFlip(true) }, [])
 
     return (
-        <Card style={{ transform: animationFlip && isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}>
-            <BackCard className='bg-gradient-to-r from-sky-500 to-indigo-500'>
-                <span className="text-white text-4xl">{id}</span>
-            </BackCard>
-            <FrontCard style={{ backgroundImage: `url(${img})` }} />
-        </Card >
+        <div>
+            {
+                animationFlip && (
+                    <div>
+                        <Card style={{ transform: animationFlip && isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }}>
+                            <BackCard className='bg-gradient-to-r from-sky-500 to-indigo-500'>
+                                <span className="text-white text-4xl">{id}</span>
+                            </BackCard>
+                            <FrontCard style={{ backgroundImage: `url(${img})` }} />
+                        </Card >
+                    </div>
+                )
+            }
+        </div>
     );
 }
