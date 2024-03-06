@@ -4,46 +4,39 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 "Indicates what fields are available at the top level of a query operation."
 type Query {
     "List of MemoTest games"
-    get_memo_tests: [MemoTest!]! @paginate(defaultCount: 10)
-
+    get_memo_tests: [MemoTest!]! @all
+    
     "Get a MemoTest game by id"
     get_memo_test(id: ID @whereKey): MemoTest @find 
 
     "Get a GameSession game by id"
     get_game_session(id: ID @whereKey): GameSession @find
-
 }
 
 type Mutation {
-  create_memo_test(id: ID!, name: String!, images: [String!]!): MemoTest! @create
+  create_memo_test(id: ID!, name: String!, images: String!): MemoTest! @create
 
   delete_memo_test(id: ID! @whereKey): MemoTest! @delete
 
-  create_game_session(id: ID!, memo_test_id: ID!, retries: Int!, number_of_pairs: Int!, state: State!)
+  create_game_session(id: ID!, memo_test_id: ID!, retries: Int!, number_of_pairs: Int!, state: State!): GameSession! @create
 
-  update_game_session_pair(id: ID!, number_of_pairs: Int!) @update
+  update_game_session_pair(id: ID!, number_of_pairs: Int!): GameSession! @update
 }
 
 enum State {
-  STARTED @enum(value: 0)
-  COMPLETED @enum(value: 1)
+  STARTED
+  COMPLETED
 }
-
-# type Card {
-#   id: ID!
-#   memo_test: MemoTest! @belongsTo
-#   url: String!
-# }
 
 type MemoTest {
   id: ID!
   name: String!
-  images: [String!]! @hasMany
+  images: String!
 }
 
 type GameSession {
   id: ID!
-  memo_test: MemoTest! @belongsTo
+  memo_test_id: Int!
   retries: Int!
   number_of_pairs: Int!
   state: State!

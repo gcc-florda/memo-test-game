@@ -9,8 +9,6 @@ class GameSession extends Model
 {
     use HasFactory;
 
-    public function game(): BelongsTo
-    {
-        return $this->belongsTo(MemoTest::class, 'memo_test');
-    }
+    public $timestamps = false;
+
 }
