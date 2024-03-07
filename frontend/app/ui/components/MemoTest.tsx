@@ -21,7 +21,6 @@ export function MemoTest({ id }: { id: string }) {
         const matched = getMatchedCardsAmount(id);
         setRetries(getGameRetries(id));
         setMatchedCards(matched);
-        setCards(prevCards => shuffleCards(prevCards))
     }, []);
 
     useEffect(() => {

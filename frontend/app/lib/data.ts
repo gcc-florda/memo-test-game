@@ -19,12 +19,6 @@ export const saveGameScore = (gameId: string, score: number) => {
     }
 }
 
-export const getCardsPosition = (gameId: string) => {
-    const cardsPositions = localStorage.getItem(`${gameId}`);
-    if (cardsPositions) { return JSON.parse(cardsPositions) }
-    else return []
-};
-
 export const getGameRetries = (gameId: string) => {
     const user = localStorage.getItem("user");
     const retries = localStorage.getItem(`${user}${gameId}retries`);

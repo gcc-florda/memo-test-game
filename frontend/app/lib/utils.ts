@@ -1,4 +1,4 @@
-import { getMatchedCards, getCardsPosition } from "./data";
+import { getMatchedCards } from "./data";
 import { numberOfCards } from '@/app/lib/static-data';
 
 
@@ -45,18 +45,15 @@ export const getCards = (gameId: string) => {
     ];
 
     const matchedCards = getMatchedCards(gameId);
-    const shuffledPositions = getCardsPosition(gameId);
 
     const initialCards = [];
     for (let i = 0; i < numberOfCards; i++) {
         let isFlipped;
-        let shuffledPosition;
         matchedCards.includes(i) ? isFlipped = false : isFlipped = true;
-        shuffledPositions.length != 0 ? shuffledPosition = shuffledPositions[i] : shuffledPosition = i;
 
         i % 2 == 0 ? initialCards.push(
             { id: i, img: imageUrls[i], value: i + 1, isFlipped: isFlipped, isMatched: !isFlipped }
         ) : initialCards.push({ id: i, img: imageUrls[i], value: i - 1, isFlipped: isFlipped, isMatched: !isFlipped });
     }
-    return initialCards;
+    return shuffleCards(initialCards);
 }
