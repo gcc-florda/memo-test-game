@@ -21,6 +21,8 @@ type Mutation {
   create_game_session(id: ID!, memo_test_id: ID!, retries: Int!, number_of_pairs: Int!, state: State!): GameSession! @create
 
   update_game_session_pair(id: ID!, number_of_pairs: Int!): GameSession! @update
+
+  end_game_session(id: ID!, state: Int!): GameSession! @update
 }
 
 enum State {
