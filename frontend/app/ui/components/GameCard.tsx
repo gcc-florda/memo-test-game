@@ -48,7 +48,7 @@ export default function GameCard({ id, title }: { id: string, title: string }) {
             </div>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    {title} Game
+                    {title[0].toUpperCase() + title.substring(1)} Game
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                     Awsome {title} Memo Game
