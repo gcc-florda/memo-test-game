@@ -1,7 +1,7 @@
 import Link from "next/link";
 import GameForm from "@/app/ui/components/GameForm"
 import PsychologyIcon from '@mui/icons-material/Psychology';
-import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography'
 
 export default function Page() {
   return (

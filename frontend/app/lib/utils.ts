@@ -1,16 +1,16 @@
 import { getMatchedCards } from "./data";
-import { numberOfCards } from '@/app/lib/static-data';
+import { numberOfCards, cardsName } from '@/app/lib/static-data';
 
 
 export const getUserScore = (gameId: string, userName: string = "") => {
     let score = 0;
-    if (userName == "") {
+    if (userName == "" && typeof localStorage !== 'undefined') {
         const user = localStorage.getItem("user");
         const username = JSON.stringify(user);
         let userScore = localStorage.getItem(`${user}${gameId}score`);
         !userScore ? score = 0 : score = JSON.parse(userScore);
     }
-    else {
+    else if (typeof localStorage !== 'undefined') {
         let userScore = localStorage.getItem(`${userName}${gameId}score`);
         !userScore ? score = 0 : score = JSON.parse(userScore);
     }
@@ -19,10 +19,12 @@ export const getUserScore = (gameId: string, userName: string = "") => {
 
 export const getHighestScore = (gameId: string) => {
     let score = 0;
-    const user = localStorage.getItem("user");
-    let userScore = localStorage.getItem(`${user}${gameId}highest`);
-    !userScore ? score = 0 : score = JSON.parse(userScore);
-    return score
+    if (typeof localStorage !== 'undefined') {
+        const user = localStorage.getItem("user");
+        let userScore = localStorage.getItem(`${user}${gameId}highest`);
+        !userScore ? score = 0 : score = JSON.parse(userScore);
+        return score
+    }
 }
 
 export const shuffleCards = (cards: any[]) => {
@@ -36,12 +38,12 @@ export const shuffleCards = (cards: any[]) => {
 
 export const getCards = (gameId: string) => {
     const imageUrls = [
-        `/${gameId}/1.png`,
-        `/${gameId}/1.png`,
-        `/${gameId}/2.png`,
-        `/${gameId}/2.png`,
-        `/${gameId}/3.png`,
-        `/${gameId}/3.png`,
+        `/${gameId}/${cardsName[parseInt(gameId) - 1]}1.png`,
+        `/${gameId}/${cardsName[parseInt(gameId) - 1]}1.png`,
+        `/${gameId}/${cardsName[parseInt(gameId) - 1]}2.png`,
+        `/${gameId}/${cardsName[parseInt(gameId) - 1]}2.png`,
+        `/${gameId}/${cardsName[parseInt(gameId) - 1]}3.png`,
+        `/${gameId}/${cardsName[parseInt(gameId) - 1]}3.png`,
     ];
 
     const matchedCards = getMatchedCards(gameId);

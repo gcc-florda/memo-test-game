@@ -15,14 +15,24 @@ class MemoTestSeeder extends Seeder
             'animal1.png',
             'animal2.png',
             'animal3.png',
-            'animal4.png'
         ];
 
         $images2 = [
             'fruit1.png',
             'fruit2.png',
             'fruit3.png',
-            'fruit4.png'
+        ];
+
+        $images3 = [
+            'halloween1.png',
+            'halloween2.png',
+            'halloween3.png',
+        ];
+
+        $images4 = [
+            'christmas1.png',
+            'christmas2.png',
+            'christmas3.png',
         ];
 
         DB::table('memo_tests')->insert([
@@ -35,6 +45,18 @@ class MemoTestSeeder extends Seeder
             'id' => 2,
             'name' => 'fruits',
             'images' => json_encode($images2)
+        ]);
+
+        DB::table('memo_tests')->insert([
+            'id' => 3,
+            'name' => 'halloween',
+            'images' => json_encode($images3)
+        ]);
+
+        DB::table('memo_tests')->insert([
+            'id' => 4,
+            'name' => 'christmas',
+            'images' => json_encode($images4)
         ]);
     }
 }

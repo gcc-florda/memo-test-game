@@ -32,7 +32,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     }),
 }));
 
-export default function GameCard({ id, title, detail, img }: { id: string, title: string, detail: string, img: string }) {
+export default function GameCard({ id, title }: { id: string, title: string }) {
     const [expanded, setExpanded] = useState(false);
     const [score, setScore] = useState(() => getUserScore(id));
     const [highestScore, setHighestScore] = useState(() => getHighestScore(id));
@@ -44,14 +44,14 @@ export default function GameCard({ id, title, detail, img }: { id: string, title
     return (
         <Card sx={{ backgroundColor: "#b2dfdb" }}>
             <div className="h-60 hidden md:block overflow-hidden">
-                <Image src={img} width={1000} height={1000} alt="Card Logo" priority={true} />
+                <Image src={`/${title}.png`} width={1000} height={1000} alt="Card Logo" priority={true} />
             </div>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    {title} Game
+                    {title[0].toUpperCase() + title.substring(1)} Game
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    {detail}
+                    Awsome {title} Memo Game
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
