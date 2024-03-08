@@ -10,7 +10,7 @@ import { getCards } from '@/app/lib/utils';
 import { numberOfCards } from '@/app/lib/static-data';
 import WinnerConffeti from '../animations/Conffeti';
 
-export function MemoTest({ id, images }: { id: string, images: Array<string> }) {
+export function MemoTest({ id, images, number_retries, state }: { id: string, images: Array<string>, number_retries: number, state: string }) {
 
     const [retries, setRetries] = useState(0);
     const [matchedCards, setMatchedCards] = useState(0);

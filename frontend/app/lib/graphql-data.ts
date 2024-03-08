@@ -37,9 +37,7 @@ export async function getGameSession(id: string) {
     query: gql`
       {
         get_game_session(id: ${id}) {
-          id
           retries
-          number_of_pairs
           state
         }
       }
@@ -82,7 +80,7 @@ export async function createGameSession(id: string, memo_test_id: string, retrie
   const client = createClient();
   const { data } = await client.mutate({
     mutation: gql`
-      {
+      mutation {
         create_game_session(
           id: ${id}, 
           memo_test_id: ${memo_test_id}, 
@@ -90,8 +88,8 @@ export async function createGameSession(id: string, memo_test_id: string, retrie
           number_of_pairs: ${pairs},
           state: ${state}
         ) {
-          id
-          memo_test_id
+          retries
+          state
         }
       }
     `
