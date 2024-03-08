@@ -1,5 +1,5 @@
 import { getMatchedCards } from "./data";
-import { numberOfCards } from '@/app/lib/static-data';
+import { numberOfCards, cardsName } from '@/app/lib/static-data';
 
 
 export const getUserScore = (gameId: string, userName: string = "") => {
@@ -38,12 +38,12 @@ export const shuffleCards = (cards: any[]) => {
 
 export const getCards = (gameId: string) => {
     const imageUrls = [
-        `/${gameId}/1.png`,
-        `/${gameId}/1.png`,
-        `/${gameId}/2.png`,
-        `/${gameId}/2.png`,
-        `/${gameId}/3.png`,
-        `/${gameId}/3.png`,
+        `/${gameId}/${cardsName[parseInt(gameId) - 1]}1.png`,
+        `/${gameId}/${cardsName[parseInt(gameId) - 1]}1.png`,
+        `/${gameId}/${cardsName[parseInt(gameId) - 1]}2.png`,
+        `/${gameId}/${cardsName[parseInt(gameId) - 1]}2.png`,
+        `/${gameId}/${cardsName[parseInt(gameId) - 1]}3.png`,
+        `/${gameId}/${cardsName[parseInt(gameId) - 1]}3.png`,
     ];
 
     const matchedCards = getMatchedCards(gameId);

@@ -1,27 +1,27 @@
 // This file contains static data used to display the memo games
 
-export const memoGames = [
+export const staticMemoGames = [
   {
     id: '1',
     name: 'Animals',
-    image_url: '/animals.png',
+    images: ['animal1.png', 'animal2.png', 'animal3.png',]
   },
   {
     id: '2',
     name: 'Fruits',
-    image_url: '/fruits.png',
+    images: ['fruit1.png', 'fruit2.png', 'fruit3.png',]
   },
   {
     id: '3',
     name: 'Halloween',
-    image_url: '/halloween.png',
+    images: ['halloween1.png', 'halloween2.png', 'halloween3.png',]
   },
   {
     id: '4',
     name: 'Christmas',
-    image_url: '/christmas.png',
+    images: ['christmas1.png', 'christmas2.png', 'christmas3.png',]
   }
 ];
 
-export const numberOfGames = memoGames.length;
 export const numberOfCards = 6;
+export const cardsName = ['animal', 'fruit', 'halloween', 'christmas'];
