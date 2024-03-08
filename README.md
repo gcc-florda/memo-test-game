@@ -61,6 +61,11 @@ cd memo-test-game/backend
 ./vendor/bin/sail down
 ```
 
+### Static Branch
+
+If you have any problem connecting to the database using the Docker Container switch to the branch **memotest-static-data**
+and run the frontend only.
+
 ### Built With
 * [![Next][Next.js]][Next-url]
 * [![React][React.js]][React-url]
