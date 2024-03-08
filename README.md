@@ -41,7 +41,7 @@ npm start
 cd memo-test-game/backend
 ```
 
-3. Start Docker containers
+3. Start Docker container
 ```sh
 ./vendor/bin/sail up -d
 ```
@@ -54,6 +54,11 @@ cd memo-test-game/backend
 5. Seed the database
 ```sh
 ./vendor/bin/sail artisan db:seed --class=MemoTestSeeder
+```
+
+6. To stop Docker container
+```sh
+./vendor/bin/sail down
 ```
 
 ### Built With
