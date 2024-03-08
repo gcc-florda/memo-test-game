@@ -32,7 +32,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     }),
 }));
 
-export default function GameCard({ id, title, detail, img }: { id: string, title: string, detail: string, img: string }) {
+export default function GameCard({ id, title, img }: { id: string, title: string, img: string }) {
     const [expanded, setExpanded] = useState(false);
     const [score, setScore] = useState(() => getUserScore(id));
     const [highestScore, setHighestScore] = useState(() => getHighestScore(id));
@@ -51,7 +51,7 @@ export default function GameCard({ id, title, detail, img }: { id: string, title
                     {title} Game
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    {detail}
+                    Awsome {title} Memo Game
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>

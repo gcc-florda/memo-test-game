@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/lib/static-data.js"
+    "app/lib/static-data.ts"
   ],
   "exclude": [
     "node_modules"
