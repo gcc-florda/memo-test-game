@@ -1,15 +1,7 @@
 import { staticMemoGames } from "../lib/static-data";
 import GameCard from "../ui/components/GameCard";
-import { getCards, getCardsImages } from "../lib/graphql-data";
 
 export default async function Page() {
-
-    // Get cards & images from the db
-    const cardsData = await getCards();
-    const cardsImagesData = await getCardsImages();
-
-    const graphCards = cardsData["get_memo_tests"];
-    const images = cardsImagesData["get_memo_tests"];
 
     return (
         <main>

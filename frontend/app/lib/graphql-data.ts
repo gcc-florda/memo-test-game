@@ -15,18 +15,3 @@ export async function getCards() {
   })
   return data;
 }
-
-export async function getCardsImages() {
-  const client = createClient();
-  const { data } = await client.query({
-    query: gql`
-      {
-        get_memo_tests {
-          id
-          images
-        }
-      }
-    `
-  })
-  return data;
-}
