@@ -16,21 +16,6 @@ export async function getMemoTests() {
   return data;
 }
 
-export async function getMemoTestsImages() {
-  const client = createClient();
-  const { data } = await client.query({
-    query: gql`
-      {
-        get_memo_tests {
-          id
-          images
-        }
-      }
-    `
-  })
-  return data;
-}
-
 export async function getMemoTest(id: string) {
   const client = createClient();
   const { data } = await client.query({

@@ -24,4 +24,3 @@ export const staticMemoGames = [
 ];
 
 export const numberOfCards = 6;
-export const cardsName = ['animal', 'fruit', 'halloween', 'christmas'];
