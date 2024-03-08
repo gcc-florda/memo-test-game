@@ -1,12 +1,11 @@
 import { getMatchedCards } from "./data";
-import { numberOfCards, cardsName } from '@/app/lib/static-data';
+import { numberOfCards } from '@/app/lib/static-data';
 
 
 export const getUserScore = (gameId: string, userName: string = "") => {
     let score = 0;
     if (userName == "" && typeof localStorage !== 'undefined') {
         const user = localStorage.getItem("user");
-        const username = JSON.stringify(user);
         let userScore = localStorage.getItem(`${user}${gameId}score`);
         !userScore ? score = 0 : score = JSON.parse(userScore);
     }
@@ -36,15 +35,14 @@ export const shuffleCards = (cards: any[]) => {
     return shuffledCards;
 };
 
-export const getCards = (gameId: string) => {
-    const imageUrls = [
-        `/${gameId}/${cardsName[parseInt(gameId) - 1]}1.png`,
-        `/${gameId}/${cardsName[parseInt(gameId) - 1]}1.png`,
-        `/${gameId}/${cardsName[parseInt(gameId) - 1]}2.png`,
-        `/${gameId}/${cardsName[parseInt(gameId) - 1]}2.png`,
-        `/${gameId}/${cardsName[parseInt(gameId) - 1]}3.png`,
-        `/${gameId}/${cardsName[parseInt(gameId) - 1]}3.png`,
-    ];
+export const getCards = (gameId: string, images: Array<String>) => {
+
+    let imageUrls: Array<String> = [];
+
+    images.map((image) => {
+        imageUrls.push(`/${gameId}/${image}`)
+        imageUrls.push(`/${gameId}/${image}`)
+    });
 
     const matchedCards = getMatchedCards(gameId);
 

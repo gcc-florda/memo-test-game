@@ -22,7 +22,7 @@ type Mutation {
 
   update_game_session_pair(id: ID!, number_of_pairs: Int!): GameSession! @update
 
-  end_game_session(id: ID!, state: Int!): GameSession! @update
+  end_game_session(id: ID!, state: State!): GameSession! @update
 }
 
 enum State {

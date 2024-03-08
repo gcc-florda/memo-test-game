@@ -6,15 +6,15 @@ import { Grid } from '@mui/material';
 import { MemoCard } from './MemoCard';
 import { WinnerCard } from './WinnerCard';
 import { saveGameScore, saveGame, getMatchedCardsAmount, getGameRetries, restartGameSession } from '@/app/lib/data';
-import { getCards, shuffleCards } from '@/app/lib/utils';
+import { getCards } from '@/app/lib/utils';
 import { numberOfCards } from '@/app/lib/static-data';
 import WinnerConffeti from '../animations/Conffeti';
 
-export function MemoTest({ id }: { id: string }) {
+export function MemoTest({ id, images }: { id: string, images: Array<string> }) {
 
     const [retries, setRetries] = useState(0);
     const [matchedCards, setMatchedCards] = useState(0);
-    const [cards, setCards] = useState(() => getCards(id));
+    const [cards, setCards] = useState(() => getCards(id, images));
     const [showWinnerCard, setWinnerCard] = useState(false);
 
     useEffect(() => {
