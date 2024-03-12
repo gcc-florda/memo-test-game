@@ -41,22 +41,32 @@ npm start
 cd memo-test-game/backend
 ```
 
-3. Start Docker container
+2. Install composer
+```sh
+composer install
+```
+
+3. Paste the content of .env.example in .env
+```sh
+cp .env.example .env
+```
+
+4. Start Docker container
 ```sh
 ./vendor/bin/sail up -d
 ```
 
-4. Run the database migration
+5. Run the database migration
 ```sh
 ./vendor/bin/sail artisan migrate
 ```
 
-5. Seed the database
+6. Seed the database
 ```sh
 ./vendor/bin/sail artisan db:seed --class=MemoTestSeeder
 ```
 
-6. To stop Docker container
+7. To stop Docker container
 ```sh
 ./vendor/bin/sail down
 ```
